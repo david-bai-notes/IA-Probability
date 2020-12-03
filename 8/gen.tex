@@ -1,0 +1,149 @@
+\section{Probability Generating Functions}
+\subsection{Definitions and Examples}
+\begin{definition}
+    Let $X$ random variable with $\Omega_X\subset\mathbb N$, the Probability distribution function as defined previously would be $p_r=\mathbb P(X=r),\forall r\in\mathbb N$.
+    The probability generating function (PGF) is defined to be
+    $$p(z)=\sum_{r=0}^\infty p_rz^r=\mathbb E[z^X]$$
+\end{definition}
+For $|z|\le1$, the series converges absolutely by comparison test, so this function is well defined in the interval $[-1,1]$.
+\begin{theorem}
+    The PGF uniquely determines the distribution of the random variable.
+\end{theorem}
+\begin{proof}
+    Suppose
+    $$\sum_{r=0}^\infty p_rz^r=\sum_{r=0}^\infty q_rz^r$$
+    Plugging in $z=0$ gives $p_0=q_0$.
+    Suppose $p_r=q_r$ for any $r\in\{1,2,\ldots,n\}$, we can get
+    $$\sum_{r=n+1}^\infty p_rz^r=\sum_{r=n+1}^\infty q_rz^r$$
+    dividing both sides by $z^{n+1}$ and sending $z\to0$ shows $p_{n+1}=q_{n+1}$.
+\end{proof}
+\begin{theorem}
+    $$\lim_{z\to 1^-}p^\prime(z)=p^\prime(1-)=\mathbb E[X]$$
+\end{theorem}
+\begin{proof}
+    Assume first that $\mathbb E[X]<\infty$.
+    For $0<z<1$ we have
+    $$p^\prime(z)=\sum_{r=0}^\infty rp_rz^{r-1}\le\sum_{r=0}^\infty rp_r=\mathbb E[X]\implies \lim_{z\to 1^-}p^\prime(z)\le \mathbb E[X]$$
+    The limit exists since $p^\prime$ is increasing.
+    Also for any $\epsilon>0$, for large enough $N$ we have
+    $$\sum_{r=0}^Nrp_r\ge\mathbb E[X]-\epsilon$$
+    Now since $p^\prime(z)\ge\sum_{r=0}^Nrp_rz^{r-1}$, we have
+    $$\lim_{z\to 1^-}p^\prime(z)\ge\sum_{r=0}^Nrp_r\ge\mathbb E[X]-\epsilon$$
+    Hence we must have $p^\prime(1-)=\mathbb E[X]$.\\
+    Now if $\mathbb E[X]=\infty$, then $\forall M\in\mathbb N$, for large enough $N$ we have
+    $$\sum_{r=0}^Nrp_r>M$$
+    Thus by the same argument $p^\prime(1-)\ge M$, hence $p^\prime(1-)=\infty$.
+\end{proof}
+Similarly and by induction, we have
+$$p^{(k)}(1-)=\mathbb E[X(X-1)\cdots (X-k+1)]$$
+In particular
+$$\operatorname{Var}(X)=p^{\prime\prime}(1-)+p^\prime(1-)-(p^\prime(1-))^2$$
+Also by simply differentiating we get $p_n=\mathbb P(X=n)=P^{(n)}(0)/n!$.
+\begin{proposition}
+    Let $X_1,\ldots,X_n$ be independent random variables with PGFs $q_i$, then the PGF $p$ of $X_1+\cdots +X_n$ satisfies $p=\prod_iq_i$.
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+In particular, if $X_i$'s are i.i.d., then $p=q^n$.
+\begin{example}
+    1. Let $X\sim\operatorname{Bin}(n,p)$, then
+    $$p(z)=\mathbb E[z^X]=\sum_{k=0}^n\binom{n}{k}z^kp^k(1-p)^{n-k}=(1-p+zp)^n$$
+    Therefore if we have independent random binomial variables $X\sim\operatorname{Bin}(n,p),Y\sim\operatorname{Bin}(m,p)$, then $\mathbb E[z^{X+Y}]=(1-p+pz)^{n+m}$, hence $X+Y\sim\operatorname{Bin}(n+m,p)$ as expected.\\
+    2. Let $X\sim\operatorname{Geom}(p)$, then
+    $$p(z)=\mathbb E[z^X]=\sum_{r=0}^\infty z^r(1-p)^rp=\frac{p}{1-z(1-p)}$$
+    3. Suppose $X\sim\operatorname{Pois}(\lambda)$, then
+    $$p(z)=\sum_{r=0}^\infty z^re^{-\lambda}\frac{\lambda^r}{r!}=e^{(z-1)\lambda}$$
+    So for independent $X\sim\operatorname{Pois}(\lambda),Y\sim\operatorname{Pois}(\mu)$, we have $\mathbb E[z^{X+Y}]=e^{(z-1)(\lambda+\mu)}$, so $X+Y\sim\operatorname{Pois}(\lambda+\mu)$.
+\end{example}
+\subsection{Summing up a Random Number of Random Variables}
+Suppose $X_1,X_2,\ldots$ be a sequence of i.i.d. random variables and $N$ be a random variable, independent of all $X_i$, taking value in $\mathbb N$.
+Let $S_n=X_1+\cdots +X_n$ and we consider the random variable $S_N$ with $S_N(\omega)=X_1(\omega)+\cdots+X_{N(\omega)}(\omega)$.
+Legt $q$ be the PGF of $N$ and $p$ the PGF of $X_1$ and $r$ be the PGF of $S_N$, then we have
+\begin{align*}
+    r(z)&=\mathbb E[z^{S_N}]\\
+    &=\mathbb E[z^{X_1+\cdots+X_N}]\\
+    &=\mathbb E\left[ \sum_{n=0}^\infty z^{X_1+\cdots+X_n}1_{(N=n)} \right]\\
+    &=\sum_{n=0}^\infty\mathbb E[z^{X_1+\cdots+X_n}1_{(N=n)}]\\
+    &=\sum_{n=0}^\infty\mathbb E[z^{X_1+\cdots+X_n}]\mathbb P(N=n)\\
+    &=\sum_{n=0}^\infty p(z)^n\mathbb P(N=n)\\
+    &=\mathbb E[p(z)^N]\\
+    &=q(p(z))
+\end{align*}
+We can do it another way using conditional expectations.
+We have
+$$r(z)=\mathbb E[z^{S_N}]=\mathbb E[\mathbb E[z^{X_1+\cdots+X_N}|N]]$$
+We have $\mathbb E[z^{X_1+\cdots+X_N}|N=n]=\mathbb E[z^{X_1}]^n=p(z)^n$, therefore $\mathbb E[z^{X_1+\cdots+X_N}|N]=p(z)^N$, hence $r(z)=\mathbb E[p(z)^N]=q(p(z))$.\\
+In particular, $\mathbb [S_N]=\lim_{z\to 1^-}r^\prime(z)=q^\prime(p(1-))p^\prime(1-)=\mathbb E[N]\mathbb E[X_1]$.
+Similarly $\operatorname{Var}(S_N)=\mathbb E[N]\operatorname{Var}(X_1)+\operatorname{Var}(N)\mathbb E[X_1]^2$.
+\subsection{Branching Processes}
+The branching processes is a family of stochastic process that is developed by Bienaym\'e, Galton and Watson (therefore also called the Bienaym\'e-Galton-Watson processes).\\
+Suppose $(X_n)_{n\ge 0}$ is a random process with $X_0=1$ and $X_n$ equals the number of individials in generation $n$.
+The individual at time $0$ produces a random number of offspring with probability distribution $\mathbb P(X_1=k)=g_k,k=0,1,\ldots$, and every individual in the first generation produces an independent number of offspring (which is independent for different individials in generation $n$) with the same distribution.
+We call the distribution of $X_1$ the offspring distribution.\\
+Continuing this way, we consider a sequence $(Y_{k,n})_{k\ge 1,n\ge 0}$ be i.i.d. as $X_1$, then we can write
+$$X_{n+1}=\begin{cases}
+    Y_{1,n}+\cdots+Y_{X_n,n}\text{, if $X_n\ge 1$}\\
+    0\text{, otherwise}
+\end{cases}$$
+So we can say $Y_{k,n}$ is the number of offspring of $k^{th}$ individual in generation $n$.
+\begin{theorem}
+    $\mathbb E[X_n]=(\mathbb E[X_1])^n,\forall n\ge 1$.
+\end{theorem}
+\begin{proof}
+    We proceed by induction.
+    $n=1$ is obvious.
+    We set $\mu=\mathbb E[X_1]$.
+    Suppose $\mathbb E[X_n]=\mu^n$, then for $n+1$, $\mathbb E[X_{n+1}]=\mathbb E[\mathbb E[X_{n+1}|X_n]]$.
+    But note that for any $m$, we have
+    $$\mathbb E[X_{n+1}|X_n=m]=\mathbb E[Y_{1,n}+\cdots+Y_{m,n}|X_n=m]=m\mu$$
+    SO $\mathbb E[X_{n+1}|X_n]=X_n\mu$, therefore $\mathbb E[X_{n+1}]=\mu^n\mu=\mu^{n+1}$.
+\end{proof}
+\begin{theorem}
+    Set $G(z)=\mathbb E[z^{X_1}]$ and $G_n(z)=\mathbb E[z^{X_n}]$, then
+    $$G_n(z)=G_{n-1}(G(z))=G^n(z)$$
+\end{theorem}
+\begin{proof}
+    Induction again.
+    $n=1$ is from definition.
+    Now assuming the previous cases, we have
+    $$G_{n+1}(z)=\mathbb E[z^{X_{n+1}}]=\mathbb E[\mathbb E[z^{X_{n+1}}|X_n]]$$
+    But now we have $\mathbb E[z^{X_{n+1}}|X_n=m]=\mathbb E[z^{X_1}]^m$ by independence, therefore $\mathbb E[z^{X_{n+1}}|X_n]=G(z)^{X_n}$, hence
+    $$\mathbb E[z^{X_{n+1}}]=\mathbb E[G(z)^{X_n}]=G_n(G(z))$$
+    As wanted.
+\end{proof}
+Certainly we would want to calculate the probability of extinction.
+Write $q$ as the probability that $X_n=0$ for some $n\ge 1$, and define $q_n$ be the probability of $X_n=0$.
+Let $A_n=\{X_n=0\}$, then $A_n\subset A_{n+1}$ and by continuity of probability measure we get
+$$q=\mathbb P\left( \bigcup_{n\in\mathbb N}A_n \right)=\lim_{n\to\infty}\mathbb P(A_n)=\lim_{n\to\infty}q_n$$
+But we know that for any $n$, $q_n=\mathbb P(X_n=0)=G_n(0)$, therefore $q_{n+1}=G(G_n(0))=G(q_n)$.
+So since $q_n$ does tends to a limit and $G$ is continuous, we have $q=G(q)$.\\
+Another way to get $q_{n+1}=G(q_n)$ is by observing that we can also condition on $X_1$.
+Conditioning on $X_1=m$, we can write $X_{n+1}=X_n^{(1)}+\cdots+X_n^{(m)}$ where $X_n^{(i)}$ are i.i.d. branching processes corresponding to the $i^{th}$ individual in the first generation.
+So
+\begin{align*}
+    q_{n+1}&=\mathbb P(X_{n+1}=0)\\
+    &=\sum_m\mathbb P(X_{n+1}=0|X_1=m)\mathbb P(X_1=m)\\
+    &=\sum_m\mathbb P(X_n^{(1)}+\cdots+X_n^{(m)}|X_1=m)\mathbb P(X_1=m)\\
+    &=\sum_m\mathbb P(X_n^{(1)}=\cdots=X_n^{(m)}=0|X_1=m)\mathbb P(X_1=m)\\
+    &=\sum_mq_n^m\mathbb P(X_1=m)\\
+    &=G(q_n)
+\end{align*}
+\begin{theorem}
+    The extinction probability $q$ is the smallest non-negative solution to the equation $q=G(q)$.
+    Also provided $\mathbb P(X_1=1)\le1$ we have $q\le1\iff \mu\ge1$.
+\end{theorem}
+\begin{proof}
+    Let $t$ be the smallest nonnegative solution to $q=G(q)$, we will show $q=t$.
+    Note that $q_0=0\le t$, and if $q_n\le t$, $q_{n+1}=G(q_n)\le G(t)=t$ since $G$ is increasing in $[0,1]$.
+    Hence $0\le q\le t$ by Squeeze Theorem, so $q=t$ by minimality of $t$.\\
+    Now consider $H(z)=G(z)-z$, then $H^{\prime\prime}(z)=\sum_{r=2}^\infty r(r-1)g_rz^{r-2}$.
+    If we assume $g_0+g_1<1$ (trivial otherwise), then $H^{\prime\prime}(z)>0$ for any $z\in (0,1)$, therefore $H^\prime$ is strictly increasing in $[0,1]$, which means (by Rolle's Theorem) that $H$ can have at most one solution other than $1$ in $[0,1]$.\\
+    If $H$ has no root in $[0,1)$, then since $H(0)=G(0)\ge 0$, $\forall z\in [0,1],H(z)\ge 0$.
+    Now
+    $$H^\prime(1-)=\lim_{z\to 1^-}\frac{H(1)-H(z)}{1-z}=\lim_{z\to 1^-}-\frac{H(z)}{1-z}\le 0$$
+    So $\mu=G^\prime(1-)=H^\prime(1-)+1\le1$.\\
+    Otherwise, let $r$ be a root of $H$ in $[0,1)$, then $G(r)=r$.
+    But $G^\prime$ is strictly increasing, so $H^\prime$ must have a root $z$ in $[r,1)$ by Rolle's.
+    Hence $G^\prime(z)=1$, but $G^\prime$ is increasing, so $\mu=G^\prime(1-)>G^\prime(z)=1$.
+\end{proof}

@@ -1,0 +1,62 @@
+\section{Definitions and Properties}
+\begin{definition}
+    Let $\Omega$ be a set, and $\mathscr F$ a set of subset of $\Omega$.
+    We call $\mathscr F$ a $\sigma$-algebra on $\Omega$ if\\
+    1. $\Omega\in\mathscr F$.\\
+    2. $A\in\mathscr F\implies A^c\in\mathscr F$.\\
+    3. For any countable sequence $(A_n)_{n\in\mathbb N}\in\mathscr F$, we have
+    $$\bigcup_{n\in\mathbb N}A_n\in\mathscr F$$
+    If $\mathscr F$ is a $\sigma$-algebra, then a function $\mathbb P:\mathscr F\to [0,1]$ is called a probablity measure if\\
+    1. $\mathbb P(\Omega)=1$.\\
+    2. For every sequence of disjoint sets $(A_n)_{n\in\mathbb N}\in\mathscr F$, we have
+    $$\mathbb P\left( \bigcup_{n\in\mathbb N}A_n \right)=\sum_{n\in\mathbb N}\mathbb P(A_n)$$
+    If $\mathbb P$ is a probablity measure, then we call $(\Omega,\mathscr F,\mathbb P)$ a probablity space.
+\end{definition}
+\begin{remark}
+    When $\Omega$ is countable, we usually take $\mathscr F=2^\Omega$.
+\end{remark}
+\begin{definition}
+    The elements of $\Omega$ are called outcomes and the elements of $\mathbb F$ are called events.
+    If $A\in\mathscr F$, we interpret $\mathbb P(A)$ as the probablity that $A$ happens.
+    Note that we only talk about probablity of events instead of outcomes.
+\end{definition}
+We will see later that if we take a random point from $[0,1]$, the probablity of a certain point being taken is $0$ (consequently any countable subset of $[0,1]$).
+\begin{proposition}
+    Let $A,B\in\mathscr F$.
+    1. $\mathbb P(A^c)=1-\mathbb P(A)$.\\
+    2. $\mathbb P(\varnothing)=0$.\\
+    3. $A\subset B\implies\mathbb P(B)\ge \mathbb P(A)$.\\
+    4. $\mathbb P(A\cup B)=\mathbb P(A)+\mathbb P(B)-\mathbb P(A\cap B)$.
+\end{proposition}
+\begin{proof}
+    All follow from definition.
+\end{proof}
+\begin{example}
+    1. Rolling a fair die.
+    So $\Omega=\{1,2,3,4,5,6\}$ and $\mathscr F=2^\Omega$, and $\forall A\subset\Omega,\mathbb P(A)=|A|/6$.\\
+    2. Equality likely outcomes.
+    $\Omega$ is just a finite set of size $n>0$ and $\mathscr F=2^\Omega$, and $\forall A\subset\Omega,\mathbb P(A)=|A|/n$.
+    This is the model of a randomly chosen point of $\Omega$.
+    Taking $n=6$ gives the first example.\\
+    3. Picking balls from a bag.
+    Suppose we have a bag with $n$ labelled balls $1,2,\ldots n$ and indistinguishable by touch.
+    We pick $k\le n$ balls at random (i.e. all outcomes are equally likely) without looking.
+    Then $\Omega=\{A\subset \{1,2,\ldots,n\}:|A|=k\}$ and $\mathscr F=2^\Omega$, so $\forall A\subset\Omega,\mathbb P(A)=|A|/\binom{n}{k}$.\\
+    4. A deck of cards.
+    Suppose we have a well-shuffled (i.e. all possible ordering of the cards are equally likely) deck of $52$ cards (excluding jokers).
+    So $\Omega=S_{52},\mathscr F=2^\Omega$ and $\forall A\subset\Omega,\mathbb P(A)=|A|/52!$.
+    Hence $\mathbb P(\text{first two cards are aces})=(4\times 3\times 50!)/52!=1/221$.\\
+    5. Largest digit.
+    Consider a string of random digits (all outcomes equally possible) $0,1,\ldots,9$ of length $n$.
+    Take $\Omega=\{0,1,\ldots,9\}^n$ and $\mathscr F,\mathbb P$ as in before.
+    Let $A_k=\{\text{no digit exceeds $k$}\}$ and $B_k=\{\text{largest digit is $k$}\}$.
+    Since $|A_k|=(k+1)^n$ we have $|B_k|=|A_k\setminus A_{k-1}|=(k+1)^n-k^n$, so $\mathbb P(B_k)=((k+1)^n-k^n)/10^n$.\\
+    6. Birthday problem.
+    Suppose there are $n$ people in the room.
+    What is the probability of at least two people sharing the same birthday, given that nobody is born on 29 Feb and any other day in the year is equally probable.
+    So $\Omega=\{1,2,\ldots,365\}^n$, and again $\mathscr F$ and $\mathbb P$ are taken as before (equally likely outcome).
+    Let $A$ be the event that all birthdays are different, then
+    $$\mathbb P(A)=\frac{|A|}{|\Omega|}=\frac{365\times 364\times\ldots (365-n+1)}{365^n}$$
+    Then the probablity of two having the same birthday is $p=1-\mathbb P(A)$.
+    If you take $n=22$, then you get $p\approx .476$, and when $n=23$, $p\approx .507$.
+\end{example}

@@ -1,0 +1,91 @@
+\section{Conditional Expectation}
+\begin{definition}
+    Let $B$ be an event such that $\mathbb P(B)>0$ and let $X$ be a random variable, then we define
+    $$\mathbb E[X|B]=\frac{\mathbb E[X\cdot 1_B]}{\mathbb P(B)}$$
+\end{definition}
+\begin{proposition}[Law of Total Expectation]
+    Let $\Omega_n$ be a sequence of events that partitions $\Omega$, then
+    $$\mathbb E[X]=\sum_n\mathbb E[X|\Omega_n]\mathbb P(\Omega_n)$$
+\end{proposition}
+\begin{proof}
+    Write $X=\sum_nX\cdot1_{\Omega_n}$.
+\end{proof}
+\begin{definition}
+    Let $X_1,\ldots,X_n$ be random variables, then the joint distribution is $\mathbb P(X_1=x_1,\ldots,X_n=x_n),x_i\in\omega_{X_i}$.
+    Given such a joint distribution, the marginal distribution of $X_i$ is defined as
+    $$\mathbb P(X_i=x_i)=\sum_{j\neq i,x_j\in\Omega_{X_j}}\mathbb P(X_1=x_1,\ldots,X_n=x_n)$$
+\end{definition}
+\begin{definition}
+    Let $X,Y$ be random variables, then the conditional probability given $Y=y,y\in\Omega_Y$ is defined by
+    $$\mathbb P(X=x|Y=y)=\mathbb P(X=x,Y=y)/\mathbb P(Y=y)$$
+\end{definition}
+Immediately
+$$\mathbb P(X=x)=\sum_{y\in\Omega_Y}\mathbb P(X=x,Y=y)=\sum_{y\in\Omega_Y}\mathbb P(X=x|Y=y)\mathbb P(Y=y)$$
+Note that if $X,Y$ are independent, then
+\begin{align*}
+    \mathbb P(X+Y=z)&=\sum_{y\in\Omega_Y}\mathbb P(X+Y=z|Y=y)\mathbb P(Y=y)\\
+    &=\sum_{y\in\Omega_Y}\mathbb P(X=z-y|Y=y)\mathbb P(Y=y)\\
+    &=\sum_{y\in\Omega_Y}\mathbb P(X=z-y)\mathbb P(Y=y)
+\end{align*}
+Similarly
+$$\mathbb P(X+Y=z)=\sum_{x\in\Omega_X}\mathbb P(X=x)\mathbb P(Y=z-x)$$
+\begin{example}
+    Let $X\sim\operatorname{Pois}(\lambda),Y\sim\operatorname{Pois}(\mu)$, and $X,Y$ are independent, then
+    $$\mathbb P(X+Y=n)=\sum_{r=0}^\infty \mathbb P(X=r)\mathbb P(X=n-r)=e^{-(\lambda+\mu)}\frac{(\lambda+\mu)^n}{n!}$$
+\end{example}
+\begin{definition}
+    Let $X,Y$ be random variables,
+    The conditional expectation of $X$ given $Y=y$ is defined to be the expectation of the conditional distribution of $X$ given $Y=y$, so
+    $$\mathbb E[X|Y=y]=\frac{\mathbb E[X\cdot 1_{Y=y}]}{\mathbb P(Y=y)}=\sum_{x\in\Omega_X}x\mathbb P(X=x|Y=y)$$
+\end{definition}
+Note that $g(y)=\mathbb E[X|Y=y]$ is a function in $\Omega_Y\to\mathbb R$.
+\begin{definition}
+    The conditional expectation of $X$ given $Y$ is defined to be $\mathbb E[X|Y]=g(Y)$ which is a random variable as a function of $Y$.
+\end{definition}
+So obviously,
+\begin{align*}
+    \mathbb E[X|Y]&=g(Y)\\
+    &=\sum_{y\in\Omega_Y}g(Y)\mathbb P(1_{Y=y})\\
+    &=\sum_{y\in\Omega_Y}1_{Y=y}g(y)\\
+    &=\sum_{y\in\Omega_Y}1_{Y=y}\mathbb E[X|Y=y]
+\end{align*}
+\begin{example}
+    Toss a $p$-coin several times independently, so they produce a sequence of random variables $(X_i)_{i\in\mathbb N}\sim\operatorname{Bern}(p)$ and the number of heads are distributed in $Y_m=X_1+X_2+\cdots+X_m\sim\operatorname{Bin}(m,p)$
+    We want to calculate $\mathbb E[X_i|Y_m]$.
+    Note that $\mathbb E[X_i|Y_m=r]=\mathbb P(X_i=1|Y_m=r)=r/m$, which means
+    $$\mathbb E[X_i|Y_m]=\frac{Y_m}{m}$$
+\end{example}
+\begin{proposition}
+    1. $\forall c\in\mathbb R,\mathbb E[cX|Y]=c\mathbb E[X|Y],\mathbb E[c|Y]=c$.\\
+    2.
+    $$\mathbb E\left[\sum_{i=1}^nX_i\middle|Y\right]=\sum_{i=1}^n\mathbb E[X_i|Y]$$
+    3. $\mathbb E[\mathbb E[X|Y]]=\mathbb E[X]$.
+\end{proposition}
+\begin{proof}
+    1 and 2 are obvious.
+    For 3,
+    \begin{align*}
+        \mathbb E[\mathbb E[X|Y]]&=\sum_{y\in\Omega_Y}\mathbb P(Y=y)\mathbb E[X|Y=y]\\
+        &=\sum_{y\in\Omega_Y}\sum_{x\in\Omega_X}x\mathbb P(X=x|Y=y)\mathbb P(Y=y)\\
+        &=\sum_{x\in\Omega_X}x\mathbb P(X=x)\\
+        &=\mathbb E[X]
+    \end{align*}
+    As desired.
+\end{proof}
+Intuitively we also have the following:
+\begin{proposition}\label{conditional_exp}
+    1. If $X,Y$ are independent, then $\mathbb E[X|Y]=\mathbb E[X]$ which is constant.\\
+    2. Suppose $Y,Z$ are independent, then $\mathbb E[\mathbb E[X|Y]|Z]=\mathbb E[X]$.\\
+    3. Let $h:\mathbb R\to\mathbb R$, then $\mathbb E[h(Y)X|Y]=h(Y)\mathbb E[X|Y]$.
+\end{proposition}
+\begin{proof}
+    1 is trivial.\\
+    For 2, we have $\mathbb E[X|Y]$ is independent of $Z$, so $\mathbb E[\mathbb E[X|Y]|Z]=\mathbb E[\mathbb E[X|Y]]=\mathbb E[X]$ by 1.\\
+    As for 3, we have $\mathbb E[h(Y)X|Y=y]=h(y)\mathbb E[X|Y=y]$, the identity follows.
+\end{proof}
+\begin{corollary}
+    $\mathbb E[\mathbb E[X|Y]|Y]=\mathbb E[X|Y]$
+\end{corollary}
+\begin{proof}
+    Take $h(y)=\mathbb E[X|Y=y]$ in Proposition \ref{conditional_exp}.3.
+\end{proof}

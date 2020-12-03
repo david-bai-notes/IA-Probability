@@ -1,0 +1,88 @@
+\section{Multidimensional Gaussian}
+A random variable $X$ in $\mathbb R$ is called Gaussian if $X\sim\mu+\sigma Z$ for $Z\sim\mathcal N(0,1)$.
+It has density, as we have seen,
+$$f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}$$
+and we denote this by $X\sim\mathcal N(\mu,\sigma^2)$.
+We want to generalize this to higher dimensions.
+\begin{definition}
+    A random variable $X=(X_1,\ldots,X_n)$ is Gaussian if for any $u\in\mathbb R^n$, $u^\top X$ is Gaussian in $\mathbb R$.\\
+    We call $X$ a Gaussian vector.
+\end{definition}
+Suppose now that we have an $n\times n$ matrix $A$ and $b\in\mathbb R^n$, then $AX+b$ is also Gaussian.
+This is obvious from definition.\\
+Set
+$$\mu=\mathbb E[X]=\begin{pmatrix}
+    \mathbb E[X_1]\\
+    \vdots\\
+    \mathbb E[X_n]
+\end{pmatrix},V=\operatorname{Var}(X)=\mathbb E[(X-\mu)(X^\top-\mu)]=(\operatorname{Cov}(X_i,X_j))_{i,j}$$
+Let $u\in\mathbb R^n$, then $\mathbb E[u^\top X]=u^\top\mu$ and the variance is $\operatorname{Var}(u^\top X)=u^\top Vu$, so $u^\top X\sim\mathcal N(u^\top\mu,u^\top Vu)$.
+$V$ is symmetric as $\operatorname{Cov}$ is, also by above $u^\top Vu$ is always nonegative, so $V$ is nonnegative definite.
+We want to know the MGF of $X$.
+Let $\lambda\in\mathbb R^n$, then $m(\lambda)=\mathbb E[e^{\lambda^\top X}]$, but we know the distribution of $\lambda^\top X$ which is $\mathcal N(u^\top\mu,u^\top Vu)$, therefore $m(\lambda)=e^{\lambda^\top\mu+\lambda^\top V\lambda/2}$.
+So by uniqueness of MGFs, we see that the distribution of a Gaussian vector is uniquely characterized by its mean $\mu$ and variance $V$, so we write $X\sim\mathcal N(\mu,V)$.\\
+As $V$ is real symmetric and nonnegative definite, we can write $V=U^\top DU$ where $U$ is real orthogonal and $D=\operatorname{diag}(\lambda_1,\ldots,\lambda_n)$ where $\lambda_i\ge 0$ for all $i$.
+So we define the square root matrix of $V$ to be
+$$\sigma=U^\top \sqrt{D}U,\sqrt{D}=\operatorname{diag}(\sqrt{\lambda_1},\ldots,\sqrt{\lambda_n})$$
+So $\sigma^2=V$, therefore we can write $X\sim\mathcal N(\mu,\sigma^2)$.\\
+Let $Z_1,\ldots,Z_n$ be i.i.d. $\mathcal N(0,1)$ and $Z=(Z_1,\ldots,Z_n)^\top$, then $Z$ is Gaussian (by e.g. looking at its MGF) and $Z\sim\mathcal N(0,I)$.
+Let $X=\mu+\sigma Z$ where $\mu\in\mathbb R^n$ and $\sigma$ is real symmetric and nonnegative definite, then $X$ is Gaussian since $x\mapsto \mu+\sigma x$ is linear.
+Also $\mathbb E[X]=\mu$ and
+$$\operatorname{Var}(X)=\mathbb E[(X-\mu)(X-\mu)^\top]=\sigma\mathbb E[ZZ^\top]\sigma=\sigma I\sigma=\sigma^2$$
+So $X\sim\mathcal N(\mu,\sigma^2)$.\\
+We want to find the density function of a multivariate normal.
+Assuming that $V$ is positive definite and $X\sim\mathcal N(\mu,V)$, then $\det V=\prod_i\lambda_i>0$.
+Also since $X=\mu+\sigma Z$, we can invert to get $Z=\sigma^{-1}(X-\mu)$, hence
+\begin{align*}
+    f_X(x)&=f_Z(z)|J|\\
+    &=\prod_{i=1}^n\frac{e^{-z_i^2/2}}{\sqrt{2\pi}}\det(\sigma^{-1})=\frac{1}{\sqrt{(2\pi)^n\det V}}e^{-z^\top z/2}\\
+    &=\frac{1}{\sqrt{(2\pi)^n\det V}}e^{-(x-\mu)^\top V^{-1}(x-\mu)/2}
+\end{align*}
+If we only assume $V$ is nonnegative definite, then we can have $0$ eigenvalues hence $0$ determinant.
+In this case, we can change the basis to get something of the form
+$$\begin{pmatrix}
+    U&0\\
+    0&0
+\end{pmatrix}$$
+where $U$ is positive definite $m\times m$ matrix and $\mu=(\lambda^\top,\nu^\top)^\top$ where $\lambda\in\mathbb R^m,\nu\in\mathbb R^n$, then we write $X=(Y^\top,\nu^\top)^\top$ where $Y$ has
+$$f_Y(y)=\frac{1}{\sqrt{(2\pi)^n\det U}}e^{-(y-\lambda)^\top U^{-1}(y-\lambda)/2}$$
+\begin{proposition}
+    Let $X=(X_1,\ldots,X_n)$ be Gaussian, and suppose that $\operatorname{Cov}(X_i,X_j)=0$ when $i\neq j$, then $X_i$ are independent Gaussians.
+\end{proposition}
+Note that the converse is obviously true.
+\begin{proof}
+    The covariant matrix is diagonal, so the density factorizes.
+\end{proof}
+Another way to see it is by simply looking at the MGF.\\
+Now we consider the bivariate Gaussians.
+Suppose $X=(X_1,X_2)$ is Gaussian and we set $\mu_k=\mathbb E[X_k],\sigma_k=\sqrt{\operatorname{Var}(X_k)}$ and suppose $\sigma_k>0$, we define
+$$\rho=\operatorname{corr}(X_1,X_2)=\frac{\operatorname{Cov}(X_1,X_2)}{\sqrt{\operatorname{Var}(X_1)\operatorname{Var}(X_2)}}$$
+Hence we have
+$$V=\operatorname{Var}(X)=\begin{pmatrix}
+    \sigma_1^2&\rho\sigma_1\sigma_2\\
+    \rho\sigma_1\sigma_2&\sigma_2^2
+\end{pmatrix}$$
+We want to show that $V$ is nonnegative definite for any $\rho$.
+Indeed, for any $x=(x_1,x_2)^\top$, we have $x^\top Vx\ge 0$ by calculation.
+in particular, if $\rho=0$ and $\sigma_k>0$, then $f_{X_1,X_2}(x_1,x_2)$ can be found by multiplying the $\mathcal N(\mu_k,\sigma_k)$ since $X_1,X_2$ are independent as we have seen before.\\
+Let $a\in\mathbb R$, then $\operatorname{Cov}(X_2-aX_1,X_1)=\operatorname{Cov}(X_1,X_2)-a\operatorname{Var}(X_1)=\rho\sigma_1\sigma_2-a\sigma_1^2$.
+Take $a=\rho\sigma_1/\sigma_2$ and $Y=X_2-aX_1$, then $\operatorname{Cov}(X_1,Y)=0$ and we can write
+$$\begin{pmatrix}
+    X_1\\
+    Y
+\end{pmatrix}=\begin{pmatrix}
+    1&0\\
+    -a&1
+\end{pmatrix}\begin{pmatrix}
+    X_1\\
+    X_2
+\end{pmatrix}$$
+So $(X_1,Y)^\top$ is also Gaussian.
+$X_1,Y$ are independent and we can write $X_2=Y+aX_1$ and $\mathbb E[X_2|X_1]=\mathbb E[Y]+aX_2$.
+\begin{theorem}
+    Let $X$ be a Gaussian vector in $\mathbb R^k$ with finite variance.
+    Suppose $X$ has covariance matrix $\Sigma$.
+    Let $X_1,\ldots$ be i.i.d. copies of $X$, then
+    $$S_n=\frac{1}{\sqrt{n}}\sum_{i=1}^n(X_i-\mathbb E[X_i])\to\mathcal N(0,\Sigma)$$
+    in the sense that for any (measurable) $B\in\mathbb R^k$, $\mathbb P(S_n\in B)\to \mathbb P(\mathcal N(0,\Sigma)\in B)$.
+\end{theorem}

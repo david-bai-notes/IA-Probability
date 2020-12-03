@@ -1,0 +1,274 @@
+\section{Discrete Distributions}
+\begin{definition}
+    Let $(\Omega,\mathscr F,\mathbb P)$ be a probability space where $\Omega$ is a countable set (we will most likely take it as finite), $\Omega=\{\omega_1,\omega_2,\ldots\}$ and $\mathscr F=2^\Omega$.
+    In order to determine $\mathbb P$, it sufficed to determine all $p_i=\mathbb P(\{\omega_i\})$.
+    We call $p_i$ as a discrete distribution.
+\end{definition}
+Note that $p_i\ge 0$ and $\sum_ip_i=1$.
+\subsection{Examples of Useful Distributions}
+\begin{definition}
+    $\Omega=\{0,1\}$ and $p_1=p,p_0=1-p$ gives the Bernoulli distribution $\operatorname{Bern}(p)$.
+    This comes from flipped a $p$-coin.
+\end{definition}
+\begin{definition}
+    Toss $N$ $p$-coins and count the number of $1$'s (heads).
+    So $\Omega=\{0,1,\ldots,N\}$ and
+    $$p_k=\binom{N}{k}p^k(1-p)^{N-k}$$
+    this is called the Binomial distribution $\operatorname{Bin}(N,p)$.
+\end{definition}
+Note that
+$$\sum_{i=0}^Np_k=\sum_{i=0}^N\binom{N}{k}p^k(1-p)^{N-k}=1$$
+by Binomial Theorem.
+\begin{definition}
+    Consider $k$ boxes and we throw $N$ independent balls in them randomly, and $p_i$ is the probability that one of the balls fall into box $i$.
+    So $\Omega=\{(n_1,n_2,\ldots,n_k)\in\mathbb N_0^k:\sum_{r=1}^kn_r=N\}$ and we have
+    $$\mathbb P((n_1,n_2,\ldots,n_k))=\binom{N}{n_1,n_2,\ldots,n_k}p_1^{n_1}\cdots p_k^{n_k}$$
+    This is the multinomial distribution.
+\end{definition}
+\begin{definition}
+    Toss a fair coin until we reach a head.
+    So $\Omega=\{1,2,\ldots\}$ and
+    $$p_k=\mathbb P(\text{tossed $k$ coins until there is a head})=(1-p)^{k-1}p$$
+    Sometimes we shift it by $1$ and say $\Omega=\{0,1,\ldots\}$ and
+    $$p_k=\mathbb P(\text{tossed $k$ coins before there is a head})=(1-p)^kp$$
+    This is called the geometric distribution $\operatorname{Geom}(p)$.
+\end{definition}
+\begin{definition}
+    The Poisson distribution is used to model the number of occurences of events in a given period of time.
+    For example, number of customer entering a shop in a day.\\
+    We take $\Omega=\{0,1,2\ldots\}$ and
+    $$\mathbb P(\{k\})=e^{-\lambda}\frac{\lambda^k}{k!}$$
+    We call this the Poisson distribution $\operatorname{Pois}(\lambda)$ of parameter $\lambda$.
+\end{definition}
+Consider the partition of $[0,1]$ in $n$ intervals of length $1/n$ and in each interval customer arrives with probability $p$ and at most $n$ customers will arrive, then
+$$\mathbb P(\text{$k$ customers arrived})=\binom{n}{k}p^k(1-p)^{n-k}$$
+which is $\operatorname{Bin}(n,p)$.
+But if we take $p=\lambda/n$, we have
+\begin{proposition}
+    $\operatorname{Bin}(n,\lambda/n)\to\operatorname{Pois}(\lambda)$ as $n\to\infty$.
+\end{proposition}
+\begin{proof}
+    Fix $k$, then
+    \begin{align*}
+        \mathbb P(\{k\})&=\binom{n}{k}\frac{\lambda^k}{n^k}\left(1-\frac{\lambda}{n}\right)^{n-k}\\
+        &=\frac{\lambda^k}{k!}\frac{n!}{n^k(n-k)!}(1+\frac{-\lambda}{n})^{n-k}\\
+        &\to\frac{\lambda_k}{k!}e^{-\lambda}
+    \end{align*}
+    as $n\to\infty$, which is exactly the Poisson distribution.
+\end{proof}
+\subsection{Random Variables}
+\begin{definition}
+    Let $(\Omega,\mathscr F,\mathbb P)$ be a probability space, a random variable $X$ is a function $\Omega\to\mathbb R$ such that\\
+    1. $\forall x\in\mathbb R, \{X\le x\}=\{\omega\in\Omega:X(\omega)\le x\}\in\mathscr F$.
+    \footnote{Sometimes we also write $\{X\in A\}=\{\omega\in\Omega:X(\omega)\in A\}$}
+\end{definition}
+\begin{example}
+    Given $A\in\mathscr F$, the indicator of $A$ is a function $1_A:\Omega\to\{0,1\}$ with
+    $$1_A(\omega)=\begin{cases}
+        1\text{, if $\omega\in A$}\\
+        0\text{, otherwise}
+    \end{cases}$$
+    This is a random variable
+\end{example}
+\begin{definition}
+    Let $X$ be a random variable, then the probability distribution function of $X$ to be a function $F_X:\mathbb R\to [0,1]$ given by $F_X(x)=\mathbb P(X\le x)=\mathbb P(\{\omega\in\Omega:X(\omega)\le x\})$.
+\end{definition}
+\begin{proposition}
+    1. $F_X(x)\to 1$ as $x\to\infty$ and $F_X(x)\to 0$ as $x\to -\infty$.\\
+    2. $F_X$ is increasing.\\
+    3. $F_X$ is right continuous, that is,
+    $$\lim_{u\to 0^+}F_X(x+u)=F_X(x)$$
+\end{proposition}
+\begin{proof}
+    Immediate.
+\end{proof}
+\begin{definition}
+    Let $(\Omega,\mathscr F,\mathbb P)$ be a probability space and $(X_1,X_2,\ldots,X_n)$ is called a random variable in $\mathbb R^n$ if it is a function $\Omega\to\mathbb R^n$ and for any $(x_1,x_2\ldots,x_n)\in\mathbb R^n$,
+    $$\{X_1\le x_1,\ldots,X_n\le x_n\}=\{\omega\in\Omega:X_1(\omega)\le x_1,\ldots,X_n(\omega)\le x_n\}\in\mathscr F$$
+    Or equivalently, each $X_i$ is a random variable in $\mathbb R$.
+\end{definition}
+\subsection{Discrete Random Variables}
+\begin{definition}
+    We call $X$ a discrete random variable if it is a real random variable and the probablity space is discrete.\\
+    In this case, we define the function $p_k=\mathbb P(X=x)=\mathbb P(\{\omega\in\Omega:X(\omega)=x\})$ as the probability mass function of $X$.
+\end{definition}
+\begin{definition}
+    The discrete random variables $X_1,X_2,\ldots,X_n$ are independent if
+    $$\mathbb P(X_1=x_1,\ldots,X_n=x_n)=\mathbb P(X_1=x_1)\cdots\mathbb P(X_n=x_n)$$
+\end{definition}
+\begin{example}
+    If we toss a $p$-coin $n$ times independently, then $p_{\omega_1,\ldots,\omega_n}=\sum_{k=1}^n p^{\omega_k}(1-p)^{1-\omega_k}$ where $(\omega_1,\ldots,\omega_n)\in\{0,1\}^n$.\\
+    Define $X_k(\omega_1,\ldots,\omega_n)=\omega_k$, then $\mathbb P(X_k=1)=p$ and $\mathbb P(X_k=0)=p$, so $X_k$ has distribution $\operatorname{Bern}(p)$.
+    Furthermore, any $X_k$ are independent.\\
+    For $\omega=\omega_1,\ldots,\omega_n$, let $S_n(\omega)=\sum_kX_k(\omega)$, so $S_n$ counts the number of heads and has distribution $\operatorname{Bin}(n,p)$ as we have $\mathbb P(S_n=k)=\binom{n}{k}p^k(1-p)^{n-k}$.
+\end{example}
+\subsection{Discrete Expectation}
+Consider a discrete probability space $(\Omega,\mathscr F,\mathbb P)$ and a random variable $X:\Omega\to\mathbb R$, then
+\begin{definition}
+    $X$ is called nonnegative if $X(\Omega)\subset\mathbb R_{\ge 0}$.
+\end{definition}
+\begin{definition}
+    For a non-negative random variable $X$, the expectation of $X$ is the sum
+    $$\mathbb E[X]=\sum_{\omega\in\Omega}X(\omega)\mathbb P(\{\omega\})$$
+    Since $X$ is nonnegative, this sum is either $0$ or approaches $+\infty$.
+\end{definition}
+\begin{lemma}\label{expectation_formula}
+    $$\mathbb E[X]=\sum_{x\in\Omega_X}x\mathbb P(X=x)$$
+\end{lemma}
+\begin{proof}
+    Write $\Omega_X=\{X(\omega):\omega\in\Omega\}$, then we immediately have
+    $$\Omega=\bigcup_{x\in\Omega_X}\{X=x\}\left( =\coprod_{x\in\Omega_X}\{X=x\} \right)$$
+    from definition.
+    Use this to expand the formula yields
+    \begin{align*}
+        \mathbb E[X]&=\sum_{\omega\in\Omega}X(\omega)\mathbb P(\{\omega\})\\
+        &=\sum_{x\in\Omega_X}\sum_{\omega\in\{X=x\}}x\mathbb P(\{\omega\})\\
+        &=\sum_{x\in\Omega_X}x\sum_{\omega\in\{X=x\}}\mathbb P(\{\omega\})\\
+        &=\sum_{x\in\Omega_X}x\mathbb P(X=x)
+    \end{align*}
+    As desired.
+\end{proof}
+As one may expect, the expectation can be interpreted as a weighted average of the values taken by the random variable by the respective probabilities.
+\begin{example}
+    1. Suppose $X\sim\operatorname{Bin}(n,p)$, then
+    \begin{align*}
+        \mathbb E[X]&=\sum_{k=0}^nk\binom{n}{k}p^k(1-p)^{n-k}\\
+        &=\sum_{k=1}^nn\binom{n-1}{k-1}p^k(1-p)^{n-k}\\
+        &=np\sum_{i=0}^{n-1}\binom{n-1}{i}p^i(1-p)^{n-i-1}\\
+        &=np(p+1-p)^{n-1}=np
+    \end{align*}
+    2. Suppose $X\sim\operatorname{Pois}(\lambda)$, then
+    \begin{align*}
+        \mathbb E[X]&=\sum_{n=0}^\infty n\frac{\lambda^n}{n!}e^{-\lambda}\\
+        &=\lambda\sum_{n=1}^\infty\frac{\lambda^{n-1}}{(n-1)!}e^{-\lambda}\\
+        &=\lambda
+    \end{align*}
+\end{example}
+Let $X$ be a general random variable, we can try to define its expectation by decomposing the positive and negative parts, that is
+\begin{definition}
+    We decompose $X$ into $X_+=\max\{X,0\}=(X+|X|)/2$ and $X_-=\max\{-X,0\}=(|X|-X)/2$, then $X=X_+-X_-$ and $|X|=X_++X_-$.
+    If either $\mathbb E[X_+]$ or $\mathbb E[X_-]$ is finite, we define $\mathbb E[X]=\mathbb E[X_+]-\mathbb E[X_-]$.\\
+    Also, if $\mathbb E[|X|]<\infty$, we call $X$ integrable..
+\end{definition}
+\begin{lemma}
+    We still have Lemma \ref{expectation_formula}.
+\end{lemma}
+\begin{proof}
+    Direct calculation.
+\end{proof}
+\begin{proposition}
+    1. $X\ge 0\implies \mathbb E[X]\ge 0$.
+    In particular, if $X\ge 0$ and $\mathbb E[X]=0$, then $\mathbb P(X=0)=1$.\\
+    2. Let $c\in\mathbb R$, then $\mathbb E[cX]=c\mathbb E[X]$ and $\mathbb E[c+X]=\mathbb c+E[X]$.
+    In particular $\mathbb E[c]=c$.\\
+    3. Let $X,Y$ be random variables, then $\mathbb E[X+Y]=\mathbb E[X]+\mathbb E[Y]$.
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+2 and 3 are called \textit{linearity of expectation}.
+And in fact, we can extend it and say for a sequence of random variables $X_i$ we have $\mathbb E\left[\sum_nX_n\right]=\sum_n\mathbb E[X_n]$.
+\begin{proposition}
+    1. $\forall A\in\mathscr F$, we have $\mathbb E[1_A]=\mathbb P(A)$.\\
+    2. (Law Of The Unconscious Statistician, LOTUS) Let $g:\mathbb R\to\mathbb R$ be a function and $X$ a random variable, then
+    $$\mathbb E[g(X)]=\sum_{x\in\Omega_X}g(x)\mathbb P(X=x)$$
+    3. If a random variable $X$ only takes integral value, then
+    $$\mathbb E(X)=\sum_{k=1}^\infty\mathbb P(X\ge k)=\sum_{k=0}^\infty\mathbb P(X>k)$$
+\end{proposition}
+\begin{proof}
+    1 is from definition.
+    For 2, we have
+    \begin{align*}
+        \mathbb E[g(X)]&=\sum_{y\in\Omega_{g(X)}}y\mathbb P(Y=y)\\
+        &=\sum_{y\in\Omega_{g(X)}}y\mathbb P(\{\omega:g(X(\omega))=y\})\\
+        &=\sum_{y\in\Omega_{g(X)}}y\mathbb P(\{\omega:X(\omega)\in g^{-1}(\{y\})\})\\
+        &=\sum_{y\in\Omega_{g(X)}}\sum_{x\in g^{-1}(\{y\})}y\mathbb P(X=x)\\
+        &=\sum_{x\in\Omega_X}g(x)\mathbb P(X=x)
+    \end{align*}
+    3 is obvious since we can decompose $X=\sum_{k=1}^\infty 1_{\{X\ge k\}}$.
+\end{proof}
+One of the usage of 1 above is to give the following proof of Inclusion-Exclusion.
+\begin{proof}[Another Proof of Inclusion-Exclusion]
+    The indicator function satisfies $1_{A^c}=1-1_A,1_{A_1\cap\cdots\cap A_n}=1_{A_1}\cdots 1_{A_n}$, therefore
+    $$1_{A_1\cup\cdots\cup A_n}=1_{(A_1^c\cap\cdots\cap A_n^c)^c}=1-\prod_{i=1}^n(1-1_{A_i})$$
+    Expanding and taking expectation gives the result.
+\end{proof}
+\begin{definition}
+    Let $X$ be a random variable and $n\in\mathbb N$, we call $\mathbb E[X^n]$ the $n^{th}$ moment of $X$, if it is well-defined.
+\end{definition}
+\subsection{Variance}
+\begin{definition}
+    Let $X$ be a random variable such that $\mathbb E[X]$ exists and is finite, then the variance of $X$ is defined as $\operatorname{Var}(X)=\mathbb E[(X-\mathbb E[X])^2]$.
+\end{definition}
+Intuitively, the variance is the measure of how ``spread out'' the random variable is.
+So a smaller variance would mean that the random variable is largely concentrated in its expected value.
+Indubitably $\operatorname{Var}(X)\ge 0$, so we can define
+\begin{definition}
+    The standard deviation is defined as $\operatorname{SD}(X)=\sqrt{\operatorname{Var}(X)}$.
+\end{definition}
+\begin{proposition}
+    1. If $\operatorname{Var}(X)=0$, then $\mathbb P(X=\mathbb E[X])=1$.\\
+    2. Let $c\in\mathbb R$, then $\operatorname{Var}(cX)=c^2\operatorname{Var}(X)$.\\
+    3. $\operatorname{Var}(X)=\mathbb E[X^2]-(\mathbb E[X])^2$.\\
+    4. $\forall x\in\mathbb R,\operatorname{Var}(X)\le \mathbb E[(X-x)^2]$ and equality hold iff $x=\mathbb E[X]$.
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+\begin{example}
+    1. For $X\sim\operatorname{Bin}(n,p)$, we have
+    \begin{align*}
+        \operatorname{Var}(X)&=\mathbb E[X^2]-(\mathbb E[X])^2\\
+        &=\mathbb E[X(X-1)]+\mathbb E[X]-(\mathbb E[X])^2\\
+        &=\sum_{k=0}^nk(k-1)\binom{n}{k}p^k(1-p)^{n-k}+np-n^2p^2\\
+        &=p^2n(n-1)\sum_{k=0}^n\binom{n-2}{k-2}p^{k-2}(1-p)^{n-k}+np-n^2p^2\\
+        &=np(1-p)
+    \end{align*}
+    2. For $X\sim\operatorname{Pois}(\lambda)$, we can calculate
+    \begin{align*}
+        \operatorname{Var}(X)&=\mathbb E[X(X-1)]+\mathbb E[X]-(\mathbb E[X])^2\\
+        &=\sum_{k=0}^\infty k(k-1)\frac{\lambda^k}{k!}e^{-\lambda}+\lambda-\lambda^2\\
+        &=\lambda^2+\lambda-\lambda^2\\
+        &=\lambda
+    \end{align*}
+\end{example}
+\begin{definition}
+    Let $X,Y$ be two random variables, we define the covariance to be
+    $$\operatorname{Cov}(X,Y)=\mathbb E[(X-\mathbb E[X])(Y-\mathbb E[Y])]$$
+\end{definition}
+The covariance is a measure of the interdependence of $X,Y$.
+\begin{proposition}
+    1. $\operatorname{Cov}(X,Y)=\operatorname{Cov}(Y,X)$.\\
+    2. $\operatorname{Cov}(X,X)=\operatorname{Var}(X)$.\\
+    3. $\operatorname{Cov}(X,Y)=\mathbb E[XY]-\mathbb E[X]\mathbb E[Y]$.\\
+    4. Suppose $c$ is a constant, then $\operatorname{Cov}(cX,Y)=c\operatorname{Cov}(X,Y),\operatorname{Cov}(c+X,Y)=\operatorname{Cov}(X,Y)$.\\
+    5. $\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y)$.
+    Easy to generalize it to finite sums\\
+    6. For any constant $c$, $\operatorname{Cov}(c,X)=0$.\\
+    7. $\operatorname{Cov}(X+Z,Y)=\operatorname{Cov}(X,Y)+\operatorname{Cov}(Z,Y)$.
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+\begin{definition}
+    $X,Y$ are called independent if $\mathbb P(X=x,Y=y)=\mathbb P(X=x)\mathbb P(Y=y)$.
+\end{definition}
+\begin{proposition}
+    Let $X,Y$ be independent and $f,g$ be nonnegative functions, then $\mathbb E[f(X)g(Y)]=\mathbb E[f(X)]\mathbb E[g(Y)]$
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \mathbb E[f(X)g(Y)]&=\sum_{x,y}f(x)g(y)\mathbb P(X=x,Y=y)\\
+        &=\sum_{x,y}f(x)g(y)\mathbb P(X=x)\mathbb P(Y=y)\\
+        &=\left( \sum_xf(x)\mathbb P(X=x) \right)\left( \sum_yf(y)\mathbb P(Y=y) \right)\\
+        &=\mathbb E[f(X)]\mathbb E[g(Y)]
+    \end{align*}
+    As desired.
+\end{proof}
+In particular, if $X,Y$ are independent, then $\operatorname{Cov}(X,Y)=0$.
+The converse, however, is not true.
+\begin{example}[Non-example]
+    Let $X_1,X_2,X_3\sim\operatorname{Bern}(1/2)$.
+    Define $Y_1=2X_1-1,Y_2=2X_2-1,Z_1=Y_1X_3,Z_2=Y_2X_3$.
+    Now $\operatorname{Cov}(Z_1,Z_2)=0$ but $Z_1,Z_2$ are not independent as $\mathbb E[Z_1=0,Z_2=0]=1/2\neq1/4=\mathbb E[Z_1=0]\mathbb E[Z_2=0]$.
+\end{example}

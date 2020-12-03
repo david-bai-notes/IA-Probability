@@ -1,0 +1,164 @@
+\section{Multivariate Distributions}
+\subsection{Joint and Marginal Distributions}
+Let $X$ be a continuous random variable has density $f$, then we know that
+$$\mathbb P(X\le x)=\int_{-\infty}^xf(y)\,\mathrm dy$$
+It can be proved that this can generalize to an arbitrary (measurable) subsets $B\subset\mathbb R$, that is,
+$$\mathbb P(X\in B)=\int_Bf(x)\,\mathrm dx$$
+\begin{definition}
+    For a tuple of random variables $X=(X_1,\ldots,X_n)\in\mathbb R^n$ where $X_i$ are continuous, $X$ is said to have density $f$ if
+    \begin{align*}
+        F(x_1,\ldots,x_n)&=\mathbb P(X_1\le x_1,\ldots,X_n\le x_n)\\
+        &=\int_{-\infty}^{x_1}\cdots\int_{-\infty}^{x_n}f(y_1,\ldots,y_n)\,\mathrm dy_n\cdots\mathrm dy_1
+    \end{align*}
+    So $f(x_1,\ldots,x_n)=\partial^n F/(\partial x_1\cdots\partial x_n)$.
+    We can also generalize this to (measurable) subsets $B\subset\mathbb R^n$ by saying
+    $$\mathbb P(X\in B)=\int_Bf(x_1,\ldots,x_n)\,\mathrm dx_1\cdots\mathrm dx_n$$
+    Let $g:\mathbb R^n\to\mathbb R^+$, we define
+    $$\mathbb E[g(X)]=\int_{\mathbb R^n}g(x_1,\ldots,x_n)f(x_1,\ldots,x_n)\,\mathrm dx_1\cdots\mathrm dx_n$$
+\end{definition}
+\begin{definition}
+    We say $X_1,\ldots,X_n$ are independent if $\mathbb P(X_1\le x_1,\ldots,X_n\le x_n)=\mathbb P(X_1\le x_1)\cdots\mathbb P(X_n\le x_n)$.
+\end{definition}
+\begin{theorem}
+    Let $X=(X_1,\ldots,X_n)$ have density $f$, then\\
+    1. If $X_1,\ldots,X_n$ are independent and $X_i$ has density $f_i$, then
+    $$f(x_1,\ldots,x_n)=\prod_{i=1}^nf_i(x_i)$$
+    2. Conversely, suppose we have the above formula for some nonnegative functions $f_i$, then $X_1\ldots,X_n$ are independent and have density functions proportional to $f_i$.
+\end{theorem}
+\begin{proof}
+    1. We know
+    \begin{align*}
+        \mathbb P(X_1\le x_1,\ldots,X_n\le x_n)&=\prod_{i=1}^n\int_{-\infty}^xf_i(y_i)\,\mathrm dy_i\\
+        &=\int_{-\infty}^{x_1}\cdots\int_{-\infty}^{x_n}\prod_{i=1}^nf(y_i)\,\mathrm dy_n\cdots\mathrm dy_1
+    \end{align*}
+    2. By multiplying constant, we may assume that
+    $$\int_{-\infty}^\infty f_i(x)\,\mathrm dx=1$$
+    for all $i$.
+    So for $B_i\subset\mathbb R$ (measurable),
+    $$\mathbb P(X\in B_1\times\cdots\times B_n)=\int_{B_1}\cdots\int_{B_n}\prod_{i=1}^nf(y_i)\,\mathrm dy_n\cdots\mathrm dy_1$$
+    Now fix $i$ and let $B_j=\mathbb R$ for any $j\neq i$, expanding the integral then gives
+    $$\mathbb P(X_i\in B_i)=\mathbb P(X_i\in B_i,X_j\in B_j,j\neq i)=\int_{B_i}f_i(y_i)\,\mathrm dy_i$$
+    So $f_i$ is the density of $X_i$.
+    Independence follows.
+\end{proof}
+\begin{proposition}
+    Let $X=(X_1,\ldots,X_n)$ have density $f$, we have
+    $$\mathbb P(X_i\le x)=\int_{-\infty}^x\int_{-\infty}^\infty\cdots\int_{-\infty}^\infty f(x_1,\ldots,x_n)\,\mathrm dx_1\cdots\mathrm dx_{i-1}\,\mathrm dx_{i+1}\cdots\mathrm dx_n\,\mathrm dx_i$$
+    So the density of $X_i$ is
+    $$f_{X_i}(x)=\int_{-\infty}^\infty\cdots\int_{-\infty}^\infty f(x_1,\ldots,x_n)\,\mathrm dx_1\cdots\mathrm dx_{i-1}\,\mathrm dx_{i+1}\cdots\mathrm dx_n$$
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+\begin{definition}
+    This is called the marginal density.
+\end{definition}
+\begin{definition}
+    Let $f,g$ be two densities on $\mathbb R$, their convolution is defined as
+    $$(f\ast g)(x)=\int_{-\infty}^\infty f(x-y)g(y)\,\mathrm dy$$
+\end{definition}
+Let $X,Y$ be two independent random variables with densities $f_X,f_Y$, then
+\begin{align*}
+    \mathbb P(X+Y\le z)&=\int_{\mathbb R^2}1_{x+y\le z}f_{X,Y}(x,y)\,\mathrm dx\,\mathrm dy\\
+    &=\int_{x+y\le z}f_X(x)f_Y(y)\,\mathrm dx\,\mathrm dy\\
+    &=\int_{-\infty}^\infty\int_{-\infty}^{z-x}f_X(x)f_Y(y)\,\mathrm dy\,\mathrm dx\\
+    &=\int_{-\infty}^\infty\int_{-\infty}^zf_X(x)f_Y(y-x)\,\mathrm dy\,\mathrm dx\\
+    &=\int_{-\infty}^z\int_{-\infty}^\infty f_X(x)f_Y(y-x)\,\mathrm dx\,\mathrm dy\\
+    &=\int_{-\infty}^z(f\ast g)(y)\,\mathrm dy
+\end{align*}
+So basically the convolution of $f_X$ and $f_Y$ is the density of $X+Y$.
+There is another way to obtain the same result, but it is not rigorous at all.
+\begin{align*}
+    \mathbb P(X+Y\le z)&=\int_{-\infty}^\infty\mathbb P(X+Y\le z,y\in\mathrm dy)\\
+    &=\int_{-\infty}^\infty\mathbb P(X+y\le z,y\in\mathrm dy)\\
+    &=\int_{-\infty}^\infty\mathbb P(X\le z-y)\mathbb P(y\in\mathrm dy)\\
+    &=\int_{-\infty}^\infty F_X(z-y)f_Y(y)\,\mathrm dy
+\end{align*}
+Just differentiating and changing the order gives the result.
+\subsection{Conditionals}
+\begin{definition}
+    Let $X,Y$ be continuous random variables with joint density $f_{X,Y}$, then the conditional density of $X$ given $Y=y$ is
+    $$f_{X|Y}(x|y)=\frac{f_{X,Y}(x,y)}{f_Y(y)}$$
+    Given that $f_Y$ is nonzero.
+\end{definition}
+\begin{definition}
+    The conditional expectation of $X$ given $Y$ is $g(Y)$ where
+    $$g(y)=\int_{-\infty}^\infty xf_{X|Y}(x|y)\,\mathrm dx(=\mathbb E(X|Y=y))$$
+    We write $\mathbb E[X|Y]=g(Y)$.
+\end{definition}
+\subsection{Law of Total Probability}
+\begin{proposition}[Law of Total Probability]
+    $$f_X(x)=\int_{-\infty}^\infty f_{X|Y}(x|y)f_Y(y)\,\mathrm dy$$
+\end{proposition}
+\begin{proof}
+    Plug in definition.
+\end{proof}
+\begin{example}
+    Let $X\sim\operatorname{Exp}(\lambda),Y\sim\operatorname{Exp}(\mu)$ be independent.
+    Set $Z=\min(X,Y)$.
+    So
+    \begin{align*}
+        \mathbb P(Z\le z)&=1-\mathbb P(Z>z)=1-\mathbb P(X>z,Y>z)\\
+        &=1-\mathbb P(X>z)\mathbb P(Y>z)=1-e^{-\lambda z}e^{-\mu z}=1-e^{-(\lambda+\mu)z}
+    \end{align*}
+    Therefore $Z\sim\operatorname{Exp}(\lambda+\mu)$.
+    So by the same way, for $X_i\sim\operatorname{Exp}(\lambda_i)$, then $\min(X_1,\ldots,X_n)\sim \operatorname{Exp}(\sum_i\lambda_i)$
+\end{example}
+\subsection{Transformation of a Multidimensional Random Variable}
+\begin{theorem}
+    Let $X$ be a continuous random variable in $D\subset\mathbb R^d$ with density $f_X$.
+    Let $g$ be a bijection $D\to g(D)$ with continuous derivative on $D$ and $\forall x\in D,\det g^\prime\neq 0$.
+    Set $y=g(x)$ and $Y=g(X)$, then the density of $Y$ is given by
+    $$f_Y(y)=f_X(x)|J|=f_X(x)\left\|\left(\frac{\partial x_i}{\partial y_j}\right)_{i,j=1}^d\right\|$$
+\end{theorem}
+\begin{proof}
+    Omitted.
+\end{proof}
+\begin{example}
+    Let $X,Y\sim\mathcal N(0,1)$ be independent, and $R=\sqrt{X^2+Y^2},\Theta=\arg(X,Y)$, so $X=R\cos\Theta,Y=R\sin\Theta$.
+    So we want the joint density of $(R,\Theta)$.
+    We have
+    $$f_{R,\Theta}(r,\theta)=f_{X,Y}(x,y)|J|=rf_{X,Y}(x,y)=rf_X(x)f_Y(y)=\frac{r}{2\pi}e^{-r^2/2}$$
+    So $R,\Theta$ are independent with $\Theta\sim\operatorname{Unif}(0,2\pi)$ and $R$ has density $f_R(r)=re^{-r^2/2}$.
+\end{example}
+\subsection{Order Statistics of a Random Sample}
+Let $X_1,\ldots,X_n$ be i.i.d. with distribution $F$ and density $f$.
+If we put them in order from smallest to biggest, $X_{(1)}\le \cdots X_{(n)}$, then $Y_i=X_{(i)}$ is called the order statistics.
+So $\mathbb P(Y_1\le x)=1-\mathbb P(Y_1>x)=1-(1-F(x))^n$ is the distribution of $Y_1$.
+The density then is $nf(x)(1-F(x))^{n-1}$.
+Also $\mathbb P(Y_n\le x)=(F(x))^n$, so it has density $nf(x)F(x)^{n-1}$.
+Now we want to find the joint density of $(Y_1,\ldots,Y_n)$.
+Let $x_1<\cdots<x_n$, we have
+\begin{align*}
+    \mathbb P(Y_1\le x_1,\ldots,Y_n\le x_n)&=\sum_{\sigma\in S_n}\mathbb P(X_1\le x_{\sigma(1)},\ldots X_n\le x_{\sigma(n)})\\
+    &=n!\mathbb P(X_1\le x_1,\ldots X_n\le x_n)\\
+    &=n!\int_{-\infty}^{x_1}f(u_1)\int_{-\infty}^{x_2}f(u_2)\cdots\int_{-\infty}^{x_n}f(u_n)\,\mathrm du_n\cdots\mathrm  du_1
+\end{align*}
+So by differentiating the density $f_Y$ of $Y_i$'s is $f_Y(y_1,\ldots,y_n)=n!f(y_1)\cdots f(y_n)$ for $y_1<y_2<\cdots<y_n$ and $0$ otherwise.
+\begin{example}
+    Let $X_1,\ldots,X_n$ be i.i.d. $\operatorname{Exp}(\lambda)$ and $Y_i$ be the order statistics and $Z_1=Y_1,Z_i=Z_i-Z_{i-1}$ for $i=2,\ldots,n$.
+    Then
+    $$Z=\begin{pmatrix}
+        Z_1\\
+        \vdots\\
+        Z_n
+    \end{pmatrix}=A\begin{pmatrix}
+        Y_1\\
+        \vdots\\
+        Y_n
+    \end{pmatrix},A=\begin{pmatrix}
+        1&0&0&\dots&0\\
+        -1&1&0&\dots&0\\
+        0&-1&1&\dots&0\\
+        \vdots&\vdots&\vdots&\ddots&\vdots\\
+        0&0&0&\dots&1
+    \end{pmatrix}$$
+    where we have $\det A=1$ and $Y_j=\sum_{i=1}^jZ_i$, so for $y_j=\sum_{i=1}^jz_i$, we have
+    \begin{align*}
+        f_{Z_1,\ldots,Z_n}(z_1,\ldots,z_n)&=f_{Y_1,\ldots,Y_n}(y_1,\ldots,y_n)|J|\\
+        &=n!e^{-\lambda y_1}\cdots e^{-\lambda y_n}\\
+        &=n!\lambda^ne^{-\lambda(nz_1+(n-1)z_2+\cdots +2z_{n-1}+z_n)}\\
+        &=\prod_{i=1}^n(n-i+1)\lambda e^{-\lambda(n-i+1)z_1}
+    \end{align*}
+    So $(Z_1,\ldots,Z_n)$ are independent exponentials with $Z_i\sim\operatorname{Exp}(\lambda(n-i+1))$.
+\end{example}

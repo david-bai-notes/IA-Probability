@@ -1,0 +1,62 @@
+\documentclass[a4paper]{article}
+
+\usepackage{hyperref}
+
+\newcommand{\triposcourse}{Probability}
+\newcommand{\triposterm}{Lent 2020}
+\newcommand{\triposlecturer}{Dr. P. Sousi}
+\newcommand{\tripospart}{IA}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem*{claim}{Claim}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{example}{Example}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+
+\title{\triposcourse{}
+\thanks{Based on the lectures under the same name taught by \triposlecturer{} in \triposterm{}.}}
+\author{Zhiyuan Bai}
+\date{Compiled on \today}
+
+\setcounter{section}{-1}
+
+\begin{document}
+    \maketitle
+    This document serves as a set of revision materials for the Cambridge Mathematical Tripos Part \tripospart{} course \textit{\triposcourse{}} in \triposterm{}.
+    However, despite its primary focus, readers should note that it is NOT a verbatim recall of the lectures, since the author might have made further amendments in the content.
+    Therefore, there should always be provisions for errors and typos while this material is being used.
+    \tableofcontents
+    \input{0/intro.tex}
+    \input{1/defns.tex}
+    \input{2/count.tex}
+    \input{3/prop.tex}
+    \input{4/discrete.tex}
+    \input{5/ineq.tex}
+    \input{6/conexp.tex}
+    \input{7/walk.tex}
+    \input{8/gen.tex}
+    \input{9/cont.tex}
+    \input{10/multi.tex}
+    \input{11/genrv.tex}
+    \input{12/moment.tex}
+    \input{13/limit.tex}
+    \input{14/geom.tex}
+    \input{15/gaussian.tex}
+    \input{16/bonus.tex}
+\end{document}

@@ -1,0 +1,21 @@
+\section{Random Walks}
+\begin{definition}
+    A random (or stochastic) process is a sequence of random variables.
+\end{definition}
+\begin{definition}
+    A random walk is a stochastic process $(X_n)_{n\in\mathbb N}$ such that $X_0=x,X_n=x+Y_1+\cdots +Y_n$ where $x\in\mathbb R$ and $Y_i$ are i.i.d. random variables.
+\end{definition}
+Now we focus on the case where $Y_i$ is $1$ with probability $p$ and $-1$ with probability $1-p$ and $x$ is an integer.
+We think of $X_n$ as the fortune of a gambler, and he gets it go up by $1$ with probability $p$ and lose with probability $q=1-p$.
+His objective is to get to $a\in\mathbb Z$ before he get to $0$.
+We say this is the event $A$.
+Let $h_x=\mathbb P(A|X_0=x)$, then $h_x=ph_{x+1}+(1-p)h_{x-1},p_a=1,p_0=0$.
+For $p=1/2=1-p$, we get $h_x=x/a$ which is perhaps not surprising.\\
+For general $p$, by trying solutions of the form $\lambda^x$, we get $p\lambda^2-\lambda+q=0$, which has solutions $\lambda=1,q/p$, and plugging in the boundary conditions yield
+$$h_x=\frac{(q/p)^x-1}{(q/p)^a-1}$$
+Now we want to estimate the expected time to absorption, that is the smallest $T$ with $X_T\in\{0,a\}$.
+We write $\tau_x$ for such $T$ with $X_0=x$.
+we have $\tau_x=1+p\tau_{x+1}+q\tau_{x-1},0<x<a,\tau_0=\tau_a=0$.
+For $p=1/2=1-p$, we get the solution $\tau_x=x(a-x)$.
+For general $p$, we get the solution
+$$\tau_x=\frac{1}{q-p}x-\frac{a}{q-p}\frac{(q/p)^x-1}{(q/p)^a-1}$$

@@ -1,0 +1,60 @@
+\section{Inequalities}
+\begin{theorem}[Markov's Inequality]
+    Suppose we have a nonnegative random variable $X$, then for any $a>0$,
+    $$\mathbb P(X\ge a)\le\frac{\mathbb E[X]}{a}$$
+\end{theorem}
+\begin{proof}
+    Observe that $X\ge a1_{X\ge a}$ by checking each $\omega\in\Omega$, then we take expectation to get the inequality.
+\end{proof}
+\begin{theorem}[Chebyshev's Inequality]
+    Let $X$ be a random variable with finite expectation, then for all $a>0$,
+    $$\mathbb P(|X-\mathbb E[X]|\ge a)\le\frac{\operatorname{Var}(X)}{a^2}$$
+\end{theorem}
+\begin{proof}
+    $$\mathbb P(|X-\mathbb E[X]|\ge a)=\mathbb P((X-\mathbb E[X])^2\ge a^2)\le\frac{\operatorname{Var}(X)}{a^2}$$
+    by Markov's Inequality.
+\end{proof}
+\begin{theorem}[Cauchy-Schwarz Inequality]
+    Let $X,Y$ be random variables, then $\mathbb E[|XY|]\le\sqrt{\mathbb E[X^2]\mathbb E[Y^2]}$
+\end{theorem}
+\begin{proof}
+    It suffices to prove the case where $X,Y$ are nonnegative, in which case we can discard the absolute value.
+    Also it is trivial when one of $\mathbb E[X^2],\mathbb E[Y^2]$ is infinite, so we assume that they are finite afterwards.
+    So $\mathbb E[XY]\le (\mathbb E[X^2]+\mathbb E[Y^2])/2$ is also finite.
+    Also if $\mathbb E[X^2]\mathbb E[Y^2]=0$ then the (in)equality is trivial, so we assume henceforth that they are both positive.
+    There we have $0\le (X-tY)^2=X^2-2tXY+t^2Y^2$, from where taking expectation on both sides then yields $\mathbb E[X^2]-2t\mathbb E[XY]+t^2\mathbb E[Y^2]\ge 0$ for any $t$.
+    The inequality follows by taking determinant, also equality happens iff $X=tY$ for some $t$, i.e. $X,Y$ are linearly dependent.
+\end{proof}
+\begin{theorem}[Jensen's Inequality]
+    Let $f$ be a convex function defined on $\mathbb R$, that is for any $x,y\in\mathbb R, t\in[0,1]$,
+    $$f(tx+(1-t)y)\le tf(x)+(1-t)f(y)$$
+    Then if $X$ is a random variable,
+    $$\mathbb E[f(X)]\ge f(\mathbb E[X])$$
+\end{theorem}
+\begin{proof}
+    A convex function is equal to the supremum of all lines lying below it.
+    That is, $\forall m\in\mathbb R,\exists a,b\in\mathbb R$ such that $f(m)=am+b$ and $\forall x\in\mathbb R,ax+b\le f(x)$.
+    This is obvious by choosing $x,y$ with $x<m<y$ and apply the definition of convex functions, whence $\exists a\in\mathbb R$,
+    $$\frac{f(m)-f(x)}{m-x}\le a\le \frac{f(y)-f(m)}{y-m}$$
+    For any $x$ it gives $f(x)\ge a(x-m)+f(m)$, so we just take $b=-am+f(m)$.\\
+    Now we go back to our proof.
+    Let $m=\mathbb E[X]$, then we can choose $a,b$ such that $f(X)\ge aX+b$ and $f(m)=am+b$, taking expectation gives $f(\mathbb E[X])=a\mathbb E[X]+b\le \mathbb E[f(X)]$.
+\end{proof}
+Obviously we want to know when does the equality case hold in Jensen's Inequality.
+Let $f$ be a convex function, assume that $\exists m\in\mathbb R$ such that $f(m)=am+b$ and $f(x)>ax+b$ for some $a,b$ real.
+Suppose $m=\mathbb E[X]$, then consider $Y=f(X)-(aX+b)$ which is a nonnegative random variable.
+Assume that $\mathbb E[f(X)]=f(\mathbb E[X])$, then $\mathbb E[Y]=0$, so $\mathbb P(Y=0)=1$, hence $\mathbb P(f(X)=aX+b)=1$, therefore $\mathbb P(X=m)=1$.
+\begin{corollary}
+    Let $f$ be convex and let $x_1,\ldots,x_n$ be real, then
+    $$\frac{1}{n}\sum_{k=1}^nf(x_k)\ge f\left(\frac{1}{n}\sum_{k=1}^nx_k \right)$$
+\end{corollary}
+\begin{proof}
+    Take $X$ be a random variable taking values uniformly in $x_1,\ldots,x_n$ and apply Jensen's Inequality.
+\end{proof}
+\begin{corollary}
+    For positive $x_1,\ldots,x_n$,
+    $$\frac{1}{n}\sum_{k=1}^nx_k\ge \left( \prod_{k=1}^nx_k \right)^{1/n}$$
+\end{corollary}
+\begin{proof}
+    Take $f=-\log$.
+\end{proof}

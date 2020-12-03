@@ -1,0 +1,136 @@
+\section{Continuous Random Variables}
+For a probability space $(\Omega,\mathscr F,\mathbb P)$ and $X:\Omega\to\mathbb R$ such that $\{X\le x\}=\{\omega\in\Omega:X(\omega)\le x\}\in\mathscr F$.
+Recall that $\forall x\in\mathbb R$ we defined the probability distribution function $F(x)=\mathbb P(X\le x)$.
+\begin{proposition}
+    1. $x\le y\implies F(x)\le F(y)$.\\
+    2. $\forall a<b,\mathbb P(a<X\le b)=F(b)-F(a)$.\\
+    3. $F$ is right continuous and the left limits always exists as well.
+    Also,
+    $$F(x-)=\lim_{y\to x^-}F(y)\le F(x)$$
+    4. We have
+    $$\lim_{x\to-\infty}F(x)=0,\lim_{x\to\infty}F(x)=1$$
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+\begin{definition}
+    $X$ is a continuous random variable if $F$ is continuous.
+\end{definition}
+So for a continuous random variable $X$ and any $x\in\mathbb R$,
+$$F(x-)=F(x)\implies\mathbb P(X<x)=\mathbb P(X\le x)\implies\mathbb P(X=x)=0$$
+In this course, we shall only consider the case where $F$ is also differentiable.
+Set $f(x)=F^\prime(x)$.
+Call $f$ the probability density function of $X$.
+\begin{proposition}
+    1. $f(x)\ge 0$.\\
+    2.
+    $$\int_{-\infty}^x f(y)\,\mathrm dy=F(x)$$
+    In particular,
+    $$\int_{-\infty}^\infty f(y)\,\mathrm dy=1$$
+\end{proposition}
+\begin{proof}
+    Obvious.
+\end{proof}
+Intuitively, for $\Delta x$ small, we have
+$$\mathbb P(x<X\le x+\Delta x)=\int_x^{x+\Delta x}f(y)\,\mathrm dy\approx f(x)\Delta x$$
+which is like approximating a continuous random variable by the probability density function of a discrete random variable.\\
+Now define, as usual, $X_+=\max\{X,0\}$ and $X_-=\min\{X,0\}$.
+\begin{definition}
+    Let $Y\ge 0$ be a nonnegative continuous random variable, then define
+    $$\mathbb E[Y]=\int_0^\infty yf(y)\,\mathrm dy$$
+    And for $g\ge 0$ we define, for any $Y$ (not necessarily positive),
+    $$\mathbb E[g(Y)]=\int_{-\infty}^\infty g(y)f(y)\,\mathrm dy$$
+    If at least one of $\mathbb E[X_+],\mathbb E[X_-]$ is finite, we define
+    $$\mathbb E[X]=\mathbb E[X_+]-\mathbb E[X_-]=\int_{-\infty}^\infty xf(x)\,\mathrm dx$$
+\end{definition}
+Now the expectation is again a linear function from definition.
+\begin{proposition}
+    Let $X$ be nonnegative, then
+    $$\mathbb E[X]=\int_0^\infty\mathbb P(X\ge x)\,\mathrm dx$$
+\end{proposition}
+Note that due to lack of measure theory some of the steps are not fully justified.
+\begin{proof}[First proof]
+    Write
+    $$X=\int_0^\infty 1_{X\ge x}\,\mathrm dx$$
+    then taking expectation on both sides yields what we want.
+\end{proof}
+\begin{proof}[Second proof]
+    \begin{align*}
+        \mathbb E[X]&=\int_0^\infty xf(x)\,\mathrm dx\\
+        &=\int_0^\infty \int_0^xf(x)\,\mathrm dy\,\mathrm dx\\
+        &=\int_0^\infty\int_y^\infty f(x)\,\mathrm dx\,\mathrm dy\\
+        &=\int_0^\infty\mathbb P(X\ge x)\,\mathrm dx
+    \end{align*}
+    As we wish.
+\end{proof}
+\begin{definition}
+    The variance is also defined as $\operatorname{Var}(X)=\mathbb E[(X-\mathbb E[X])^2]$.
+\end{definition}
+\begin{example}
+    1. The uniform distribution $\operatorname{Unif}(a,b)$ for $a<b$, where
+    $$f(x)=\begin{cases}
+        1/(b-a)\text{, if $x\in [a,b]$}\\
+        0\text{, otherwise}
+    \end{cases}$$
+    Suppose $X$ has density $f$, then
+    $$F(x)=\mathbb P(X\le x)=\int_{-\infty}^xf(x)\,\mathrm dx=\begin{cases}
+        0\text{, if $x<a$}\\
+        (x-a)/(b-a)\text{, if $x\in [a,b]$}\\
+        1\text{, if $x>b$}
+    \end{cases}$$
+    So we have
+    $$\mathbb E[X]=\int_{\mathbb R}xf(x)\,\mathrm dx=\int_a^bxf(x)\,\mathrm dx=\frac{a+b}{2}$$
+    2. The exponential distribution $\operatorname{Exp}(\lambda)$ has density function $f(x)=\lambda e^{-\lambda x}$ where $\lambda,x>0$.
+    Therefore for $x$ positive,
+    $$F(x)=\int_0^x\lambda e^{-\lambda x}\,\mathrm dx=1-e^{-\lambda x}$$
+    and one can check that $\mathbb E[X]=\lambda^{-1}$.\\
+    The exponential distribution is kind of a limit of the geometric distribution.
+    Let $T\sim\operatorname{Exp}(\lambda)$ and $T_n=\lfloor nT\rfloor$, so
+    $$\mathbb P(T_n\ge k)=\mathbb P(T\ge k/n)=e^{-k\lambda/n}=(e^{-\lambda/n})^k$$
+    So $T_n$ is distributed geometrically with parameter $p_n=1-e^{-\lambda/n}$, so as $n\to\infty$, we have $p_n\sim \lambda/n$ and $T_n/n\to T$.
+    So the exponential distribution arises as the limit of a rescaled sequence of geometrics.\\
+    The exponential distribution also has the memoryless property, that is, for any $t,s\ge 0$,
+    $$\mathbb P(T>s+t|T>s)=\mathbb P(T>t)$$
+    Conversely, if $T$ has the memoryless property, then let $g(t)=\mathbb P(T>t)$ (which is decreasing), then $g(t+s)=g(t)g(s)$.
+    Now $g$ must be exponential in $\mathbb Q$ by simple iteration.
+    Also $g$ is continuous, so $g$ must be the exponential function (with appropriate scalings), so $T$ is distributed exponentially.
+\end{example}
+\begin{theorem}
+    Let $X$ be a continuous random variable with density $f$.
+    Let $g$ be a continuous, strictly monotone function with $g^{-1}$ differentiable.
+    Then $g(X)$ is a continuous random variable with density $f(g^{-1}(x))|\mathrm dg^{-1}(x)/\mathrm dx|$.
+\end{theorem}
+\begin{proof}
+    First assume that $g$ is strictly increasing, then $\mathbb P(g(X)\le x)=\mathbb P(X\le g^{-1}(x))=F(g^{-1}(x))$, so the density of $g(X)$ would be
+    $$\frac{\mathrm d}{\mathrm dx}F(g^{-1}(x))=f(g^{-1}(x))\frac{\mathrm dg^{-1}(x)}{\mathrm dx}=f(g^{-1}(x))\left|\frac{\mathrm dg^{-1}(x)}{\mathrm dx}\right|$$
+    As for $g$ strictly decreasing, $\mathbb P(g(X)\le x)=\mathbb P(X\ge g^{-1}(x))=1-F(g^{-1}(x))$, so then density is
+    $$\frac{\mathrm d}{\mathrm dx}(1-F(g^{-1}(x)))=-f(g^{-1}(x))\frac{\mathrm dg^{-1}(x)}{\mathrm dx}=f(g^{-1}(x))\left|\frac{\mathrm dg^{-1}(x)}{\mathrm dx}\right|$$
+    as desired.
+\end{proof}
+\begin{example}
+    For $\mu\in\mathbb R,\sigma>0$, we define the density of the normal distribution to be
+    $$f(x)=\frac{1}{\sqrt{2\pi\sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}$$
+    We know how to integrate the Gaussian integral, so we can verify that this is indeed a density.
+    Now for a random variable $X$ having this density, we have
+    $$\mathbb E[X]=\int_{-\infty}^\infty \frac{x}{\sqrt{2\pi\sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}\,\mathrm dx=\mu$$
+    So $\mu$ is actually the expected value.
+    Also
+    $$\operatorname{Var}(X)=\mathbb E[(X-\mathbb E[X])^2]=\int_{-\infty}^\infty \frac{(x-\mu)^2}{\sqrt{2\pi\sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}\,\mathrm dx=\sigma^2$$
+    This is called the normal distribution $\mathcal N(\mu,\sigma^2)$.
+    We call $\mathcal N(0,1)$ the standard normal.
+    So the distribution and density of the standard normal would be
+    $$\Phi(x)=\int_{-\infty}^x\frac{e^{-t^2/2}}{\sqrt{2\pi}}\,\mathrm dt,\phi(x)=\frac{e^{-x^2/2}}{\sqrt{2\pi}}$$
+    If we have $X\sim\mathcal N(\mu,\sigma^2)$, then for $a,b\in\mathbb R$ with $a\neq 0$, $Y=aX+b$ would have $\mathbb E[Y]=a\mu+b,\operatorname{Var}(Y)=a^2\sigma^2$ (note that $X$ needs not be normal to get these), we shall show that $Y$ is also normal with $Y\sim\mathcal N(a\mu+b,a^2\sigma^2)$.
+    Let $g(x)=ax+b$, then $Y=g(X)$, we know that the density $f_Y$ of $Y$ has
+    $$f_Y(y)=f(g^{-1}(Y))\left|\frac{\mathrm dg^{-1}(y)}{\mathrm dy}\right|=\frac{1}{\sqrt{2\pi a^2\sigma^2}}e^{-(y-(a\mu+b))^2/(2a^2\sigma^2)}$$
+    by some calculations.
+    And this is what we wanted.
+    So $(X-\mu)/\sigma\sim\mathcal N(0,1)$.
+    More than $95\%$ of the normal distribution lies within two standard deviations of the mean, that is $\mathbb P(|(X-\mu)/\sigma|<2)=\mathbb P(\mu-2\sigma<X\le \mu+2\sigma)\ge 95\%$.
+    By some computer stuff or other calculation methods, $\mathbb P(|(X-\mu)/\sigma|<2)\ge \mathbb P(|(X-\mu)/\sigma|<1.96)\approx 0.95$
+\end{example}
+\begin{definition}
+    Let $X$ be a continuous random variable with density $f$, the median $m$ of $X$ is a number satisfying $\mathbb P(X>m)=\mathbb P(X\le m)=1/2$.
+\end{definition}
+The median always exists due to intermediate value theorem.
+For symmetric distributions, i.e. $f(\mu+x)=f(\mu-x)$, then $\mu$ is its median.

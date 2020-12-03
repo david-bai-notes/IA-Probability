@@ -1,0 +1,122 @@
+\section{Limit Theorems}
+\subsection{Law(s) of Large Numbers}
+\begin{theorem}[Weak Law of Large Numbers]
+    Let $(X_n:n\in\mathbb N)$ be an iid sequence of random variables with finite expectation $\mu$.
+    Set $S_n=X_1+\cdots+X_n$, then for any $\epsilon>0$, we have
+    $$\mathbb P\left( \left|\frac{S_n}{n}-\mu\right|>\epsilon \right)\to 0$$
+    as $n\to\infty$.
+\end{theorem}
+We shall prove this assuming $\operatorname{X_1}=\sigma^2<\infty$.
+\begin{proof}
+    We have $\mathbb E[S_n/n]=\mu$ and $\operatorname{Var}(S_n/n)=\sigma^2/n$, then by Chebyshev's Inequality,
+    $$\mathbb P\left(\left|\frac{S_n}{n}-\mu\right|>\epsilon\right)\le\frac{\operatorname{Var}(S_n/n)}{\epsilon^2}=\frac{\sigma^2}{\epsilon^2n}\to 0$$
+    As $n\to\infty$.
+\end{proof}
+\begin{definition}
+    A sequence $(X_n)$ converges to $X$ in probability, written as
+    $$X_n\xrightarrow{\mathbb P}X,n\to\infty$$
+    if $\forall\epsilon>0,\mathbb P(|X_n-X|>\epsilon)\to 0$ as $n\to\infty$.
+\end{definition}
+So the weak law of large numbers says that $S_n/n\xrightarrow{\mathbb P}\mu$ as $n\to\infty$.
+\begin{definition}
+    $(X_n)$ converges to $X$ with probability $1$ (or ``almost surely'', a.s.) if
+    $$\mathbb P\left(\lim_{n\to\infty}X_n=X\right)=1$$
+\end{definition}
+\begin{theorem}[Strong Law of Large Numbers]
+    Let the setting be as before, then
+    $$\mathbb P\left(\lim_{n\to\infty}\frac{S_n}{n}\to\mu\right)=1$$
+\end{theorem}
+\begin{proof}
+    Assume further that the $4^{th}$ moment is finite.
+    BY considering $Y_i=X_i-\mu$, WLOG $\mu=0$.
+    We have
+    $$S_n^4=\left( \sum_{i=1}^nX_i \right)^4=\sum_{i=1}^nX_i^4+6\sum_{1\le i<j\le n}X_i^2X_j^2+R$$
+    where $R$ is a sum of terms of the form $X_i^3X_j,X_i^2X_jX_k,X_iX_jX_kX_l$ for $i,j,k,l$ all distinct.
+    Since $X_i$ are independent with zero mean, $\mathbb E[R]=0$, so
+    \begin{align*}
+        \mathbb E[S_n^4]&=n\mathbb E[X_1^4]+3n(n-1)\mathbb E[X_1^2]^2\\
+        &\le (n+3n(n-1))\mathbb E[X_1^4]\\
+        &\le 3n^2\mathbb E[X_1^4]
+    \end{align*}
+    Hence
+    $$\mathbb E\left[ \sum_{n=1}^\infty\left( \frac{S_n}{n} \right)^4 \right]=\sum_{n=1}^\infty\mathbb E\left[ \left( \frac{S_n}{n} \right)^4 \right]\le 3\mathbb E[X_1^4]\sum_{n=1}^\infty\frac{1}{n^2}<\infty$$
+    So
+    $$\mathbb P\left(\sum_{n=1}^\infty\left( \frac{S_n}{n} \right)^4<\infty\right)=1\implies\mathbb P\left(\lim_{n\to\infty}\frac{S_n}{n}=0\right)=1$$
+    as claimed.
+\end{proof}
+As the name suggests, he strong law of large numbers implies the weak law of large numbers.
+\begin{proposition}
+    Suppose $X_n\to\mu$ almost surely, then $X_n\xrightarrow{\mathbb P}\mu$
+\end{proposition}
+By shifting, it suffices to consider the case where $\mu=0$.
+\begin{proof}
+    Assuming $X_n\to 0$ almost surely, then we have
+    $$\mathbb P(|X_n|\le\epsilon)\ge\mathbb P\left( \bigcap_{m=n}^\infty\{|X_m|\le\epsilon\} \right)$$
+    write the event in the right hand side as $A_n$, then $A_n\subset A_{n+1}$ and $\bigcup_nA_n$ is the event that $|X_m|\le\epsilon$ for any sufficiently large $m$.
+    So
+    $$\lim_{n\to\infty}\mathbb P(|X_n|\le\epsilon)\ge\mathbb P\left( \bigcup_{n\in\mathbb N}A_n \right)\ge\mathbb P(X_n\to 0)=1$$
+    So $\mathbb P(|X_n|<\epsilon)=0$.
+\end{proof}
+\subsection{Central Limit Theorem}
+We saw $S_n/n-\mu\to 0$ a.s. from the law of large numbers.
+We know also that $\operatorname{Var}(S_n/n)=\sigma^2/n$ where $\sigma^2$ is the variance of $X_1$.
+So if we want to normalize,
+$$\frac{S_n/n-\mu}{\sqrt{\operatorname{Var}(S_n/n)}}=\frac{S_n-n\mu}{\sigma\sqrt{n}}$$
+from which we will expect
+\begin{theorem}[Central Limit Theorem]
+    Let $(X_n:n\in\mathbb N)$ be a sequence of i.i.d. random variables with mean $\mu$ and variance $\sigma^2$, then set $S_n=X_1+\cdots+X_n$ as before, we have
+    $$\mathbb P\left( \frac{S_n-n\mu}{\sigma\sqrt{n}}\le x \right)\to\Phi(x)=\int_{-\infty}^x\frac{e^{-y^2/2}}{\sqrt{2\pi}}\,\mathrm dy$$
+    for all $x\in\mathbb R$.
+\end{theorem}
+In other words, $(S_n-n\mu)/(\sigma\sqrt{n})\to\mathcal N(0,1)$ in distribution.
+What this means is that for $n$ large enough, $S_n\approx n\mu+\sigma\sqrt{n}\mathcal N(0,1)=\mathcal N(\mu n,\sigma^2n)$.
+In fact, not only does it converge, we can also estimate the rate of convergence, which is sadly beyond the course.
+\begin{proof}
+    WLOG $\mu=0,\sigma=1$ by considering $(X_i-\mu)/\sigma$.
+    Assume further that $\exists\delta>0,\mathbb E[e^{\pm\delta X_1}]<\infty$.
+    By continuity of MGFs, it suffices to show that, for $Z\sim\mathcal N(0,1)$,
+    $$\mathbb E[e^{\theta S_n/\sqrt{n}}]\to\mathbb E[e^{\theta Z}]=e^{\theta^2/2}$$
+    So if let $m$ be the MGF of $X_1$,
+    $$\mathbb E[e^{\theta S_n/\sqrt{n}}]=\mathbb E[e^{\theta X_n/\sqrt{n}}]^n=m(\theta/\sqrt{n})^n$$
+    Note that when $|\theta|<\delta/2$,
+    $$m(\theta)=\mathbb E\left[ \sum_{n=0}^\infty\frac{1}{n!}\theta^nX_1^n \right]=1+\frac{\theta^2}{2}+\mathbb E\left[  \sum_{n=3}^\infty\frac{1}{n!}\theta^nX_1^n \right]$$
+    We will prove that the last term is $o(\theta^2)$ as $\theta\to 0$, which immediately implies the result.\\
+    We have
+    \begin{align*}
+        \sum_{n=3}^\infty\frac{1}{n!}|\theta|^n|X_1|^n&=|\theta X_1|^3\sum_{k=0}^\infty\frac{|\theta X_1|^k}{(k+3)!}\\
+        &\le|\theta X_1|^3e^{\delta|X_1|/2}\\
+        &\le 3!\left( \frac{2\theta}{\delta} \right)^3e^{\delta|X_1|}
+    \end{align*}
+    Now by Jensen's Inequality
+    \begin{align*}
+        \left|\mathbb E\left[  \sum_{n=3}^\infty\frac{1}{n!}\theta^nX_1^n \right]\right|&\le\mathbb E\left[ \sum_{n=3}^\infty\frac{1}{n!}|\theta|^n|X_1|^n \right]\\
+        &\le 3!\left( \frac{2\theta}{\delta} \right)^3\mathbb E[e^{\delta|X_1|}]\\
+        &\le 3!\left( \frac{2\theta}{\delta} \right)^3(\mathbb E[e^{\delta|X_1|}]+\mathbb E[e^{-\delta X_1}])\\
+        &=o(|\theta|^2)
+    \end{align*}
+    As desired.
+\end{proof}
+There are few important application of central limit theorem.
+\begin{example}
+    1. Let $(X_n)$ be i.i.d. $\operatorname{Bern}(p)$ and hence $S_n\sim\operatorname{Bin}(n,p)$.
+    Recall that $\mathbb E[S_n]=np$ and $\operatorname{Var}(S_n)=np(1-p)$, so
+    $$\frac{S_n-np}{\sqrt{np(1-p)}}\to\mathcal N(0,1)$$
+    in distribution.
+    So for $n$ large, $S_n\approx\mathcal N(np,np(1-p))$ for $n$ large.
+    In the Poisson approximation of the binomial, we scaled $p$ to $\lambda/n$, while in this approximation, we kept $p$ constant.\\
+    2. We now want $S_n\sim\operatorname{Pois}(n)$, and to accomplish this we can write $S_n=X_1+\cdots+X_n$ where $(X_n)$ are i.i.d. $\operatorname{Pois}(1)$.
+    So $(S_n-n)/\sqrt{n}\approx \mathcal N(0,1)$.
+\end{example}
+\subsection{Sampling Error by Central Limit Theorem}
+A proportion $p$ of the population votes ``yes'' and $1-p$ votes ``no'' in a referendum.
+We want to estimate $p$ with error at most $\pm 4\%$ in probability at least $0.99$.
+We pick $N$ individuals at random.
+Let $S_N$ be the number of people who voted ``yes'', so we want to estimate $p$ by $\hat{p}_N=S_N/N$, so what we want is
+$$\mathbb P(|\hat{p}_N-p|\le 4\%)\ge 0.99$$
+Now $S_N\sim\operatorname{Bin}(N,p)$, so by previous,
+$$\hat{p}_N=\frac{S_N}{N}\approx p+\sqrt{\frac{p(1-p)}{N}}Z,Z\sim\mathcal N(0,1)$$
+for $N$ large.
+So what we want is
+$$\mathbb P\left( \sqrt{\frac{p(1-p)}{N}}|Z|\le 4\% \right)\ge 0.99$$
+Now $\mathbb P(Z\ge z)=2(1-\Phi(z))$, then $\mathbb P(|Z|\ge 2.58)=0.01$.
+So in the worse case where $p=1/2$ gives $N\ge 1040$.

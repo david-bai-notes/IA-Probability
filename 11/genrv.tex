@@ -1,0 +1,45 @@
+\section{Generation of Random Variables}
+\begin{example}
+    Suppose $U\sim\operatorname{Unif}(0,1)$ and set $Y=-\log U$, so $\mathbb P(Y\le x)=\mathbb P(U\ge e^{-x})=1-e^{-x}$ which is $\operatorname{Exp}(1)$.
+\end{example}
+\begin{theorem}
+    Let $X$ be a continuous random variable with distribution $F$ and $U\sim\operatorname{Unif}(0,1)$, then $F^{-1}(U)$ has the same distribution as $X$.
+\end{theorem}
+\begin{proof}
+    Obvious.
+\end{proof}
+Another way to generate is called the rejection sampling.
+Suppose $A\subset [0,1]^d$ (measurable) and $f(x)=1_{A}(x)/|A|$ where $|A|$ is the volume of $A$.
+We want a random variables $X$ to have density $f$.
+Let $U_n$ be an i.i.d. sequence of $d$-dimensional uniforms, i.e. $U_n=(U_{k,n}:k=1,\ldots,d)$ where $U_{k,n}$ are i.i.d. $\operatorname{Unif}[0,1]$.
+Let $N=\min\{n\ge 1:U_n\in A\}$ and set $X=U_N$.
+\begin{proposition}
+    Let $B\in[0,1]^d$, then $\mathbb P(X\in B)=|B\cap A|/|A|$.
+\end{proposition}
+\begin{proof}
+    \begin{align*}
+        \mathbb P(X\in B)&=\sum_{n=1}^\infty\mathbb P(X\in B,N=n)\\
+        &=\sum_{n=1}^\infty\mathbb P(U_n\in A\cap B,U_{n-1}\notin A,\ldots,U_1\notin A)\\
+        &=\sum_{n=1}^\infty |A\cap B|(1-|A|)^{n-1}\\
+        &=\frac{|A\cap B|}{|A|}\\
+        &\left(=\int_Bf(x)\,\mathrm dx\right)
+    \end{align*}
+    As desired.
+\end{proof}
+Let $f$ be a bounded density on $[0,1]^{d-1}$, that is $\exists\lambda,\sup f\le\lambda$ and we want to find $X\sim f$.
+Consider $A=\{(x_1,\ldots,x_d)\in [0,1]^d:x_d\in f(x_1,\ldots,x_{n-1})/\lambda\}$.
+Let $Y=(X_1,\ldots,X_d)$ be uniform on $A$ generated as above and set $X=(X_1,\ldots,X_{d-1})$.
+\begin{proposition}
+    $X\sim f$.
+\end{proposition}
+\begin{proof}
+    Let $B\subset [0,1]^{d-1}$, then
+    \begin{align*}
+        \mathbb P(X\in B)&=\mathbb P((X_1,\ldots,X_d)\in (B\times [0,1])\cap A)\\
+        &=\frac{(B\times [0,1]\cap A)}{|A|}\\
+        &=\frac{1}{|A|}\int\cdots\int_{[0,1]^d}1_{(B\times [0,1])\cap A}((x_1\cdots x_d))\,\mathrm dx_1\cdots\mathrm dx_n\\
+        &=\frac{1}{|A|}\int\cdots\int_{[0,1]^d}1_{B}((x_1,\ldots ,x_{d-1}))\frac{f(x_1,\ldots,x_{d-1})}{\lambda}\,\mathrm dx_1\cdots\mathrm dx_n\\
+        &=\int_Bf(x)\,\mathrm dx
+    \end{align*}
+    which is what we wanted.
+\end{proof}

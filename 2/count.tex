@@ -1,0 +1,53 @@
+\section{Some Counting and Stirling's Formula}
+\subsection{Some Counting}
+If we have a finite set $\Omega$, and let $M$ be the number of ways of partition $\Omega$ into $k$ subsets $S_1,S_2,\ldots,S_k$ with $|S_j|=n_j$ with $n_1+n_2+\cdots +n_k=|\Omega|$, then
+$$M=\binom{|\Omega|}{n_1,n_2,\ldots,n_k}=\frac{|\Omega|}{n_1!n_2!\cdots n_k!}$$
+We suddenly want to count the number of strictly increasing and nondecreasing functions from the set $\{1,2,\ldots,k\}$ to $\{1,2,\ldots,n\}$.
+Note that each strictly increasing function in this way are uniquely identified by their image, so the number of such functions equals $\binom{n}{k}$.
+\footnote{$\binom{n}{k}=0$ for $k>n$}
+To count nondecreasing functions, however, we cannot use this trick.
+Nonetheless, we can consider the bijection
+$$\{f\text{ nondecreasing}:\{1,2,\ldots,k\}\to\{1,2,\ldots,n\}\}\to$$
+$$\{f\text{ strictly increasing}:\{1,2,\ldots,k\}\to\{1,2,\ldots,n+k-1\}\}$$
+by assigning a function $f$ in the previous set to the function $g(i)=f(i)+i-1$.
+So that number is $\binom{n+k-1}{k}$.
+\subsection{Stirling's Formula}
+\begin{definition}
+    Let $(a_n),(b_n)$ be two positive sequences, we say $a_n\sim b_n$ if $a_n/b_n\to 1$ as $n\to\infty$.
+\end{definition}
+\begin{theorem}[Stirling]
+    $$n!\sim n^n\sqrt{2\pi n}e^{-n}$$
+\end{theorem}
+\begin{proposition}[Weaker Statement of Stirling's Formula]
+    $\log(n!)\sim n\log n$
+\end{proposition}
+\begin{proof}
+    Let $\ell_n=\log(n!)$.
+    So we have
+    $$\ell(n)=\log 2+\log 3+\cdots+\log n$$
+    Note that we have the trivial bound $\log\lfloor x\rfloor\le \log x\le \log\lfloor x+1\rfloor$, hence
+    $$\ell_{n-1}\le\int_1^n\log x\,\mathrm dx\le \ell_n$$
+    So
+    $$n\log(n)-n+1\le \ell_n\le (n+1)\log(n+1)-n$$
+    The proposition follows.
+\end{proof}
+\begin{proof}[Proof of Stirling's Formula]
+    Note that
+    $$\int_a^bf(x)\,\mathrm dx=\frac{f(a)+f(b)}{2}(b-a)-\frac{1}{2}\int_a^b(x-a)(b-x)f^{\prime\prime}(x)\,\mathrm dx$$
+    We take $f=\log$ we have
+    $$\int_k^{k+1}\log x\,\mathrm dx=\frac{\log(k)+\log(k+1)}{2}+\frac{1}{2}\int_0^1\frac{x(1-x)}{(x+k)^2}\,\mathrm dx$$
+    Summing over $k=1,2,\ldots,n-1$ we have
+    $$n\log n-n+1=\log(n!)-\frac{\log n}{2}+\sum_{k=1}^{n-1}a_k$$
+    where
+    $$a_k=\frac{1}{2}\int_0^1\frac{x(1-x)}{(x+k)^2}\,\mathrm dx$$
+    Note that it is easy to see the partial sum of $a_k$ converges, so we define $A=\exp(1-\sum_{k\in\mathbb N}a_k)$ to have
+    $$n!=n^n\sqrt{n}e^{-n}A\exp\left(\sum_{k=n}^\infty a_k\right)$$
+    Note that the last part goes to $1$ as $n\to\infty$, so it remains to show $A=\sqrt{2\pi}$.\\
+    We claim that
+    $$2^{-2n}\binom{2n}{n}\sim\frac{1}{\sqrt{\pi n}}$$
+    since $2^{-2n}\binom{2n}{n}\sim\sqrt 2/(A\sqrt{n})$, it will prove what we want.
+    Consider
+    $$I_n=\int_0^{\pi/2}\cos^n\theta\,\mathrm d\theta$$
+    It is trivial to see that it equals $I_{2n}=\binom{2n}{n}\pi/2^{2n+1}$ and $I_{2n+1}=2^{2n}\binom{2n}{n}^{-1}/(2n+1)$.
+    We want to show that $I_{2n}/I_{2n+1}\to 1$ which will prove the result, but this is obvious since $I_{n+2}/I_n\to 1$ and $I_n$ is decreasing.
+\end{proof}

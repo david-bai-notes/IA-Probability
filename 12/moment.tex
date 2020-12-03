@@ -1,0 +1,80 @@
+\section{Moment Generating Functions}
+\subsection{Moment Generating Function of One Random Variable}
+\begin{definition}
+    Let $X$ have density $f$, then the moment generating function (MGF) is defined by
+    $$m(\theta)=\mathbb E[e^{\theta X}]=\int_{-\infty}^\infty e^{\theta x}f(x)\,\mathrm dx$$
+    wherever it is finite.
+\end{definition}
+Note that $m(0)=1$.
+\begin{theorem}
+    The MGF uniquely determines the distribution of random variable provided it is defined on some open interval around $0$.
+\end{theorem}
+\begin{proof}
+    Omitted.
+\end{proof}
+\begin{theorem}
+    Suppose the MGF is defined for some open interval around $0$, then $m^{(r)}(0)=\mathbb E[X^r]$.
+\end{theorem}
+\begin{proof}
+    Omitted as well.
+\end{proof}
+\begin{example}
+    1. Gamma distribution $X\sim\Gamma(n,\lambda)$ for $n\in\mathbb N,\lambda\ge 0$.
+    $$f(x)=e^{-\lambda x}\lambda^n\frac{x^{n-1}}{(n-1)!}$$
+    defined for $x\ge 0$.
+    For $n=1$, we get $\operatorname{Exp}(\lambda)$.
+    One can show by reduction formula that this is indeed a density.\\
+    In this case, we have
+    \begin{align*}
+        m(\theta)&=\mathbb E[e^{\theta X}]\\
+        &=\int_0^\infty e^{-(\lambda-\theta)x}\frac{\lambda^n}{(\lambda-\theta)^n}(\lambda-\theta)^n\frac{x^{n-1}}{(n-1)!}\,\mathrm dx\\
+        &=\left(\frac{\lambda}{\lambda-\theta} \right)^n
+    \end{align*}
+    taking $n=1$ then gives the MGF of the exponential.
+    Suppose now that $X_1,\cdots,X_n$ are independent, then the MGF of the sum
+    $$m(\theta)=\mathbb E[e^{\theta(X_1+\cdots+X_n)}]=\mathbb E[e^{\theta X_1}]\cdots\mathbb E[e^{\theta X_n}]$$
+    So if $X\sim\Gamma(n,\lambda),Y\sim\Gamma(m,\lambda)$ are independent, then
+    $$\mathbb E[e^{\theta(X+Y)}]=\left(\frac{\lambda}{\lambda-\theta} \right)^n\left(\frac{\lambda}{\lambda-\theta} \right)^m=\left(\frac{\lambda}{\lambda-\theta} \right)^{m+n}\sim\Gamma(n+m,\lambda)$$
+    In particular, if $X_1,\ldots,X_n$ are i.i.d. $\operatorname{Exp}(\lambda)$, then $X_1+\cdots+X_n\sim\Gamma(n,\lambda)$.\\
+    2. Suppose $X\sim\mathcal N(\mu,\sigma^2)$, then the MGF of $X$ is
+    \begin{align*}
+        m(\theta)&=\mathbb E[e^{\theta X}]\\
+        &=\int_{-\infty}^\infty e^{\theta x}\frac{1}{\sqrt{2\pi \sigma^2}}e^{-(x-\mu)^2/(2\sigma^2)}\,\mathrm dx\\
+        &=e^{\mu\theta+\theta^2\sigma^2/2}
+    \end{align*}
+    After some completing square and calculation.
+    Now if $X\sim\mathcal N(\mu,\sigma^2)$, then we know that $aX+b\sim\mathcal N(a\mu+b,a^2\sigma^2)$.
+    We can prove this again using MGF, indeed,
+    $$\mathbb E[e^{\theta(aX+b)}]=e^{\theta b}e^{a\theta\mu+(a\theta)^2\sigma^2/2}=e^{\theta(a\mu +b)+\theta^2(a^2\sigma^2)/2}$$
+    So $aX+b\sim\mathcal N(a\mu+b,a^2\sigma^2)$.
+    Now let $Y=\mathcal N(\nu,\tau^2)$ independent of $X$, then by using the same trick (MGF), we get $\mathbb E[e^{\theta(X+Y)}]=e^{\theta(\mu+\nu)+\theta^2(\sigma^2+\tau^2)/2}$ so $X+Y\sim\mathcal N(\mu+\nu,\sigma^2+\tau^2)$.\\
+    3. (non-example) Cauchy's Distribition is obtained by $f(x)=1/(\pi(1+x^2))$ for $x\in\mathbb R$.
+    Then we can get $m(\theta)=\infty$ for any $\theta\neq 0$, so if $X\sim f$ then $X,2X,\ldots$ all have the same MGF but not the same distribution.
+    So the assumption on $m(\theta)$ being finite on an open interval is essential.
+\end{example}
+\subsection{Multivariate Moment generating Function}
+\begin{definition}
+    Let $X=(X_1,\ldots,X_n)$ be a random variable in $\mathbb R^n$, then the MGF of $X$ is defined to be a function $m:\mathbb R^n\to\mathbb R$ with
+    $$m(\theta)=\mathbb E[e^{\theta^\top X}]=\mathbb E[e^{\theta_1X_1+\cdots+\theta_nX_n}]$$
+    where $\theta=(\theta_1,\ldots,\theta_n)^\top$.
+\end{definition}
+Provided that $m(\theta)$ is finite for a certain range (which is out of the scope of this course) of values of $\theta$, it uniquely characterizes the distribution of $X$.
+Also
+$$\left.\frac{\partial^rm}{\partial\theta_i^r}\right|_{\theta=0}=\mathbb E[X_i^r],\left.\frac{\partial^{r+s}m}{\partial\theta_i^r\partial\theta_j^s}\right|_{\theta=0}=\mathbb E[X_i^rX_j^s]$$
+Also $X_1,\ldots,X_n$ are independent iff
+$$m(\theta)=\prod_{i=1}^n\mathbb E[e^{\theta_iX_i}]$$
+\begin{definition}
+    Let $(X_n,n\in\mathbb N)$ be a sequence of random variables, and let $X$ be a random variable.
+    We say $X_n\to X$ in distribution if
+    $$F_{X_n}(x)\to F_X(x),F_{X_n}(x)=\mathbb P(X_n\le x),F_X(x)=\mathbb P(X\le x)$$
+    For each $x\in\mathbb R$ such that $F_X$ is continuous at $x$.
+\end{definition}
+\begin{theorem}[Continuity Theorem for MGFs]
+    Let $X$ be a random variable with MGF $m$ and $m(\theta)<\infty$ for some $\theta\neq 0$.
+    Suppose we have
+    $$m_n(\theta)=\mathbb E[e^{\theta X_n}]\to m(\theta),\forall\theta\in\mathbb R$$
+    Then $X_n\to X$ in distribution.
+\end{theorem}
+\begin{proof}
+    Omitted.
+\end{proof}

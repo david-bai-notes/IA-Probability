@@ -1,0 +1,146 @@
+\section{Some Properties of Probability Measure and More Counting}
+\subsection{Elementary Results}
+Let $(\Omega,\mathscr F,\mathbb P)$ be a probability space.
+\begin{proposition}[Countable Subadditivity]
+    Let $(A_n)_{n\in\mathbb N}\in\mathscr F$, then
+    $$\mathbb P\left( \bigcup_{n\in\mathbb N}A_n \right)\le\sum_{n=1}^\infty \mathbb P(A_n)$$
+\end{proposition}
+\begin{proof}
+    Consider $B_1=A_1$ and $B_n=A_n\setminus (A_1\cup A_2\cup\cdots\cup A_{n-1})$.
+    The result follows.
+\end{proof}
+$\mathbb P$ is upward continuous.
+\begin{proposition}
+    Suppose $(A_n)_n\in\mathbb N\in\mathscr F$ is increasing, then
+    $$\mathbb P(A_n)\to \mathbb P\left( \bigcup_{n\in\mathbb N} A_n\right)$$
+    as $n\to\infty$.
+\end{proposition}
+\begin{proof}
+    Consider $B_1=A_1$ and $B_n=A_n\setminus (A_1\cup A_2\cup\cdots\cup A_{n-1})$.
+    Note that $\mathbb P(A_n)=\mathbb P(B_1)+\cdots+\mathbb P(B_n)$, so
+    $$\mathbb P(A_n)=\sum_{k=1}^n\mathbb P(B_k)=\mathbb P\left(\bigcup_{k=1}^nB_n\right)=\mathbb P\left( \bigcup_{k=1}^nA_n \right)\to\mathbb P\left( \bigcup_{n\in\mathbb N} A_n\right)$$
+    As desired.
+\end{proof}
+By taking complement, we know that $\mathbb P$ is also downward continuous.
+\begin{proposition}[Inclusion-Exclusion Principle]
+    Let $A_1,A_2,\ldots,A_n$ be events, then we have
+    $$\mathbb P(A_1\cup\cdots\cup A_n)=\sum_{k=1}^n(-1)^{k+1}\sum_{1\le i_1<\cdots<i_k\le n}\mathbb P(A_{i_1}\cap\cdots\cap A_{i_k})$$
+\end{proposition}
+\begin{proof}
+    Induction.
+\end{proof}
+For the probability on finite sample space with equally likely outcomes, the principle reduced to the known inclusion-exclusion principle on finite sets.
+\begin{corollary}
+    Let $A_1,A_2,\ldots,A_n$ be sets, then we have
+    $$|A_1\cup\cdots\cup A_n|=\sum_{k=1}^n(-1)^{k+1}\sum_{1\le i_1<\cdots<i_k\le n}|A_{i_1}\cap\cdots\cap A_{i_k}|$$
+\end{corollary}
+\begin{proof}
+    Follows directly.
+\end{proof}
+\begin{proposition}[Bonferroni Inequality]
+    Truncating the inclusion-exclusion formula after the $n^{th}$ term gives an overestimate if $n$ is odd and underestimate if $n$ is even.
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+\subsection{Counting by Inclusion-Exclusion}
+Inclusion-Exclusion allows us to do some more counting.\\
+We want to count the number of surjections $\{1,2,\ldots,n\}\to\{1,2,\ldots,m\}$ for $m\le n$.
+Take $\Omega=\{f:\{1,2,\ldots,n\}\to\{1,2,\ldots,m\}\}$ and $A$ be the set of surjections.
+Let $A_i=\{f\in\Omega:i\notin \operatorname{Im}f\}$, so $A=A_1^c\cap\cdots\cap A_m^c=(A_1\cup\cdots\cup A_m)^c$.
+Now since we have $|A_{i_1}\cap\cdots\cap A_{i_k}|=(m-k)^n$, hence by Inclusion-Exclusion, we have
+$$|A|=\sum_{k=0}^m(-1)^k\binom{m}{k}(m-k)^n$$
+(Note that a complement has been taken.)\\
+We now want to count the number of derangements of $\{1,2,\ldots,n\}$.
+Let $\Omega=S_n$ and $A$ be the set of derangements.
+Let $A_i=\{\sigma\in\Omega:\sigma(i)=i\}$, so again $A=(A_1\cup\cdots\cup A_n)^c$.
+But we have $|A_{i_1}\cap\cdots\cap A_{i_k}|=(n-k)!$, so assume an equally likely probability measure $\mathbb P$, we then have
+$$\mathbb P(A^c)=\sum_{k=1}^n(-1)^{k+1}\frac{n}{k}\frac{(n-k)!}{n!}\implies \mathbb P(A)=\sum_{k=0}^n(-1)^k\frac{1}{k!}\to \frac{1}{e}$$
+So asymptopically $|A|\sim n!/e$.
+\subsection{Independence}
+\begin{definition}
+    $A,B\in\mathscr F$ are said to be independent if $\mathbb P(A)\mathbb P(B)=\mathbb (A\cap B)$.\\
+    A countable sequence $(A_n)_{n\in\mathbb N}$ of events is independent if $\forall k\ge 2$ and for any set of indices $i_1,i_2,\ldots,i_k$ we have
+    $$\mathbb P(A_{i_1}\cap\cdots\cap A_{i_k})=\mathbb P(A_{i_1})\cdots\mathbb P(A_{i_k})$$
+\end{definition}
+\begin{remark}
+    1. Pairwise independence does not imply independence.
+    Say we flip a fair coin twice, then $\Omega=\{(0,0),(0,1),(1,0),(1,1)\}$ and $A=\{(0,0),(0,1)\},B=\{(0,0),(1,0)\},C=\{(0,1),(1,0)\}$, then they are pairwisely independent but not independent.\\
+    2. If $A$ is independent of $B$, then $A$ is also independence of $B^c$.
+\end{remark}
+\begin{definition}
+    Let $A,B$ be events such that $\mathbb P(B)>0$.
+    The conditional probability is defined as
+    $$\mathbb P(A|B)=\frac{\mathbb P(A\cap B)}{\mathbb P(B)}$$
+\end{definition}
+In particular, $\mathbb P(A|B)=\mathbb P(A)$ iff $A,B$ are independent.
+\begin{proposition}
+    Let $(A_n)_{n\in\mathbb N}$ be a sequence of disjoint events, then
+    $$\mathbb P\left( \bigcup_{n\in\mathbb N}A_n\middle|B \right)=\sum_{n\in\mathbb N}\mathbb P(A_n|B)$$
+\end{proposition}
+\begin{proof}
+    Trivial.
+\end{proof}
+So conditional probability measure is also a probability measure.
+\begin{theorem}[Law of Total Probability]
+    Suppose $(B_n)_{n\in\mathbb N}$ is a disjoint sequence of events such that $\mathbb P(B_n)>0$ for all $n$ and $\bigcup B_n=\Omega$.
+    Then
+    $$\mathbb P(A)=\sum_{n\in\mathbb N}\mathbb P(A|B_n)\mathbb P(B_n)$$
+\end{theorem}
+\begin{proof}
+    Obvious.
+\end{proof}
+\begin{theorem}[Bayes' Formula]
+    Let $(B_n)_{n\in\mathbb N}$ be as above and $\mathbb P(A)>0$, then
+    $$\mathbb P(B_n|A)=\frac{\mathbb P(A|B_n)\mathbb P(B_n)}{\sum_{k}\mathbb P(A|B_k)\mathbb P(B_k)}$$
+\end{theorem}
+\begin{example}[False Positives for a Rare Condition]
+    Consider a rare medical condition $A$ which affects $0.1\%$ of the population and a medical test which is positive for $98\%$ of the people affected and $1\%$ of those unaffected by the condition.
+    Take a random person, then we want to know the probablity that he has condition $A$ given that he was tested positive.
+    Let $A$ be the event of individuals suffering from the condition and $P$ be the individuals being tested positive.
+    Hence
+    $$\mathbb P(A|P)=\frac{\mathbb P(P|A)\mathbb P(A)}{\mathbb P(P|A^c)\mathbb P(A^c)+\mathbb P(P|A)\mathbb P(A)}\approx 8.9\%$$
+    This may seems counterintuitive since this probability seems low, but the thing is that $\mathbb P(P|A^c)>>\mathbb P(P|A)$ since the medical condition is so rare.
+\end{example}
+\begin{example}[Extra Knowledge Changes Probability]
+    Consider the following statements:\\
+    (a) I have $2$ childrens, the elder of whom is a boy.\\
+    (b) I have $2$ childrens, one of whom is a boy.\\
+    (c) I have $2$ childrens, one of whom is a boy who is born on a Tuesday.\\
+    We assume equally likely distributions.
+    Let $GB$ denotes that the younger is a girl and the elder is a boy.
+    Similar for $BG,BB,GG$.
+    $$\mathbb P(BB|a)=\mathbb P(BB|BG\cup BB)=\frac{1}{2}$$
+    $$\mathbb P(BB|b)=\mathbb P(BB|BG\cup GB\cup BB)=\frac{1}{3}$$
+    Write $TN$ be that there are two boy, the younger is born on Tuesday but the elder is not, similar for ($2$-)combinations of $T,N,G$.
+    \begin{align*}
+        \mathbb P(BB|c)&=\mathbb P(TT\cup TN\cup NT|TT\cup TN\cup NT\cup TG\cup GT)\\
+        &=\frac{\mathbb P(TT\cup TN\cup NT)}{\mathbb P(TT\cup TN\cup NT\cup GT\cup TG)}\\
+        &=\frac{13}{27}
+    \end{align*}
+\end{example}
+\begin{example}[Simpson's Paradox]
+    There are $50$ men and $50$ women applying to a college.
+    \begin{center}
+        \begin{tabular}{c|c|c|c}
+            \hline
+            All applicants&Admitted&Rejected&Success Rate\\
+            \hline
+            State&25&25&50\%\\
+            Indep&28&22&56\%\\
+            \hline
+            Men Only&Admitted&Rejected&Success Rate\\
+            \hline
+            State&15&22&41\%\\
+            Indep&5&8&38\%\\
+            \hline
+            Women Only&Admitted&Rejected&Success Rate\\
+            \hline
+            State&10&3&77\%\\
+            Indep&23&14&68\%
+        \end{tabular}
+    \end{center}
+    So both men and women in state schools have higher acceptance rate, but the overall acceptance rate of state schools is still lower than that in independent schools.
+    This is because the overall acceptance rate for women in this set of data is larger and there are much more of them in independent schools than state schools.
+    Basically it is because $A/B>a/b$ and $C/D>c/d$ does not imply $(A+C)/(B+D)>(a+c)/(b+d)$.
+\end{example}

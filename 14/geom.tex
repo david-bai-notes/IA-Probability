@@ -1,0 +1,47 @@
+\section{Geometrical Probability}
+\subsection{Buffon's Needle}
+Suppose we have parallel horizontal lines, each with distance $L$ apart from each other and we have a needle with length $\ell\le L$.
+Throw the needle at random, then we want to know the probbaility that it intersects at least one line.
+Suppose we have dropped the needle, then let $\Theta$ be its horizontal inclination and $X$ the distance between the distance between the left end to the line above.
+So we take $X\sim\operatorname{Unif}[0,L]$ and $\Theta\sim\operatorname{Unif}[0,\pi]$ and they are independent.
+Hence
+$$p=\mathbb P(\text{The needle intersects the lines})=\mathbb P(X\le\ell\sin\Theta)$$
+So we can now calculate this by
+\begin{align*}
+    p&=\mathbb P(\text{The needle intersects the lines})\\
+    &=\mathbb P(X\le\ell\sin\Theta)\\
+    &=\int_0^L\int_0^\pi 1_{x\le l\sin\theta}f_{X,\Theta}(x,\theta)\,\mathrm d\theta\,\mathrm dx\\
+    &=\int_0^L\int_0^\pi  1_{x\le l\sin\theta}\frac{1}{\pi L}\,\mathrm d\theta\,\mathrm dx\\
+    &=\frac{1}{\pi L}\int_0^\pi\ell\sin\theta\,\mathrm d\theta\\
+    &=\frac{2\ell}{\pi L}
+\end{align*}
+Hence $\pi=2\ell/(pL)$.
+Now we want to approximate $\pi$ by this experiment.
+Throw $n$ needles independently and let $\hat{p}_n$ be the proportion of needles intersecting a line.
+We want to approximate $p$ by $\hat{p}_n$ thus approximate $\pi$ by $\hat\pi_n=2\ell/(\hat{p}_nL)$.
+Suppose we want $\mathbb P(|\hat\pi_n-\pi|\le 0.001)\ge 0.99$, we want to know how large $n$ has to be.\\
+Define $f(x)=2\ell/(xL)$, then $f(p)=\pi$ and $f^\prime(p)=-\pi/p$.
+Also $f(\hat{p}_n)=\hat\pi_n$.
+Let $S_n$ be the number of needles intersecting a line, then $S_n\sim\operatorname{Bin}(n,p)$, so $S_n\approx np+\sqrt{np(1-p)}Z$ where $Z\sim\mathcal N(0,1)$.
+So $\hat{p}_n\approx p+\sqrt{p(1-p)/n}Z$.
+By Taylor's Theorem,
+$$\hat\pi_n=f(\hat{p}_n)\approx f(p)+(\hat{p}_n-p)f^\prime(p)=\pi-(\hat{p}_n-p)\pi/p$$
+So when we substitute back, we obtain
+$$\hat\pi_n-\pi\approx-\pi\sqrt{\frac{1-p}{pn}}Z$$
+So
+$$\mathbb P(|\hat\pi_n-\pi|\le 0.001)=\mathbb P\left( \pi\sqrt{\frac{1-p}{pn}}|Z|<0.001 \right)$$
+Now $\mathbb P(|z|\ge 2.58)<0.01$.
+Also the variance of $\pi\sqrt{(1-p)/(pn)}Z$ is $\pi^2(1-p)/(pn)$ which is decreasing in $p$.
+We can minimize the variance by taking $\ell=L$, so $p=2/\pi$ and the variance is $\pi^2(\pi/2-1)/n$, so in this case we need
+$$\sqrt{\frac{\pi^2}{n}(\frac{\pi}{2}-1)}2.58=0.001\implies n=3.75\times 10^7$$
+which is quite large.
+\subsection{Bertrand's Paradox}
+We have a circle of radius $r$ and draw a chord at random.
+We want to know the probability that it has length at most $r$.
+There are two ways to do this.
+The first approach is let $X\sim\operatorname{Unif}(0,r)$ to be the perpendicular distance between the chord and the center of the circle.
+Let $C$ be the length, then $C\le r\iff 4X^2\ge 3r^2$, so the probability is $1-\sqrt{3}/2\approx 0.134$.\\
+There is a second approach.
+Fix one point of the chord and choose $\Theta\sim\operatorname{Unif}(0,2\pi)$ to be the angle between this point and the other point of the chord.
+So $C\le r\iff \Theta\le\pi/3\lor\Theta\ge 2\pi-\pi/3$, hence the probability is $1/3$ which is far enough from $0.134$.\\
+But this is not a paradox since we are using essentially different sample spaces.
